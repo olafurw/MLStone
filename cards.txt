@@ -1,0 +1,10 @@
+1 2 1 0 Defias Bandit
+6 6 7 0 Boulderfist Ogre
+4 4 3 0 Houndmaster
+3 5 1 0 Magma Rager
+5 4 4 0 Nightblade
+2 1 2 0 Novice Engineer
+4 3 5 1 Sen'jin Shieldmasta
+5 5 4 1 Booty Bay Bodyguard
+2 2 2 1 Frostwolf Grunt
+1 1 2 1 Goldshire Footman
