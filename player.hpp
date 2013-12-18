@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 #include <iostream>
 
 #include "card.hpp"
@@ -13,7 +14,7 @@ class player
 {
 public:
 	player() = delete;
-	player(std::string name, int health, int armor);
+	player(int id, std::string name, int health, int armor, std::shared_ptr<board> board);
 	player(const player& p);
 	player(player&& p);
 
@@ -26,13 +27,12 @@ public:
 	void draw();
 	void add_to_board(int index);
 	void attack(int player_card, board& enemy_board, int enemy_card);
-	void attack(int player_card);
-
-	board& get_board();
 
 	friend std::ostream& operator<<(std::ostream& out, const player& p);
 
 private:
+	int m_id;
+	int m_enemy_id;
 	std::string m_name;
 	int m_health;
 	int m_max_health;
@@ -42,7 +42,7 @@ private:
 
 	std::vector<card> m_hand;
 	deck m_deck;
-	board m_board;
+	std::shared_ptr<board> m_board;
 };
 
 std::ostream& operator<<(std::ostream& out, const player& p);
