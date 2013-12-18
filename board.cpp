@@ -9,13 +9,16 @@ board::board()
 
 	m_board[0] = &m_board_one;
 	m_board[1] = &m_board_two;
+}
 
-	std::vector<std::vector<card>*> m_board;
-	std::vector<player*> m_players;
+bool board::can_add(int id)
+{
+	return m_board[id]->size() < m_limit;
 }
 
 void board::add(int id, card c)
 {
+	// Cannot add a card to a deck past the limit
 	if(m_board[id]->size() == m_limit)
 	{
 		return;

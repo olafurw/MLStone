@@ -12,12 +12,12 @@ class board
 {
 public:
 	board();
+	void register_player(int id, player* p);
 
+	bool can_add(int id);
 	void add(int id, card c);
 	card& at(int id, int index);
 	void attack(int aid, int attacker_index, int bid, int target_index);
-
-	void register_player(int id, player* p);
 
 	friend std::ostream& operator<<(std::ostream& out, const board& b);
 private:
