@@ -18,15 +18,16 @@ deck::deck()
 		int damage;
 		int health;
 		int taunt;
+		int charge;
 		std::string name;
 
 		while(!cards.eof())
 		{
-			cards >> mana >> damage >> health >> taunt;
+			cards >> mana >> damage >> health >> taunt >> charge;
 			std::getline(cards, name);
 			trim(name);
 
-			card c(name, mana, damage, health, (taunt > 0 ? true : false));
+			card c(name, mana, damage, health, (taunt > 0 ? true : false), (charge > 0 ? true : false));
 
 			m_cards.emplace_back(c);
 		}
@@ -94,5 +95,5 @@ card deck::draw()
 void deck::shuffle()
 {
 	// the deck is a vector so we can do this
-	std::random_shuffle(m_cards.begin(), m_cards.end());
+	std::shuffle(m_cards.begin(), m_cards.end(), random_generator());
 }

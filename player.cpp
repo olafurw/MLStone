@@ -2,7 +2,7 @@
 
 player::player(int id, std::string name, int health, int armor, std::shared_ptr<board> board):
 		m_id(id),
-		m_enemy_id(id + 1 % 2),
+		m_enemy_id((id + 1) % 2),
 		m_name(name),
 		m_health(health),
 		m_max_health(health),
@@ -96,6 +96,11 @@ void player::show_board()
 
 void player::show_hand()
 {
+	if(m_hand.empty())
+	{
+		std::cout << "Hand empty" << std::endl;
+	}
+
 	for(const card& c : m_hand)
 	{
 		std::cout << c << std::endl;
@@ -113,11 +118,31 @@ void player::update()
 	m_mana = m_max_mana;
 
 	draw();
-}
 
-void player::play()
-{
+	// Combat logic here below
+	for(unsigned int i = 0; i < m_hand.size(); ++i)
+	{
+		if(can_add_to_board(i))
+		{
+			add_to_board(i);
+			break;
+		}
+	}
 
+	for(auto player_card_id : m_board->cards(m_id))
+	{
+		card& player_card = m_board->at(m_id, player_card_id);
+
+		if(player_card.awake() && player_card.can_attack())
+		{
+			// Attack the first card that you can
+			for(auto enemy_card_id : m_board->cards_can_attack(m_enemy_id))
+			{
+				attack(player_card_id, enemy_card_id);
+				return;
+			}
+		}
+	}
 }
 
 void player::draw()
@@ -128,21 +153,44 @@ void player::draw()
 	}
 }
 
-void player::add_to_board(int index)
+bool player::can_add_to_board(int index)
 {
-	m_board->add(m_id, m_hand.at(index));
-	m_hand.erase(m_hand.begin() + index);
+	return m_hand.at(index).mana() <= m_mana;
 }
 
-void player::attack(int player_card, board& enemy_board, int enemy_card)
+void player::add_to_board(int index)
+{
+	if(can_add_to_board(index))
+	{
+		int mana_cost = m_hand.at(index).mana();
+
+		m_board->add(m_id, m_hand.at(index));
+		m_hand.erase(m_hand.begin() + index);
+
+		m_mana -= mana_cost;
+	}
+}
+
+void player::attack(int player_card, int enemy_card)
 {
 	m_board->attack(m_id, player_card, m_enemy_id, enemy_card);
+}
+
+std::string player::name() const
+{
+	return m_name;
+}
+
+int player::id() const
+{
+	return m_id;
 }
 
 std::ostream& operator<<(std::ostream& out, const player& p)
 {
 	out << "[Player " << (p.m_id + 1) << "] " << p.m_name
-		<< " - [H] " << p.m_health
+		<< " - [H] " << p.m_health << "/" << p.m_max_health
+		<< " - [M] " << p.m_mana << "/" << p.m_max_mana
 		<< " - [A] " << p.m_armor
 		<< " - " << (p.m_alive ? "Alive" : "Dead");
 

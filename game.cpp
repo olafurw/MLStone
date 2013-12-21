@@ -10,20 +10,40 @@ game::game()
 
 void game::update()
 {
-	int current = 0;
+	int round = 0;
 
 	// Game loop
 	while(true)
 	{
+		round++;
+
+		std::cout << "--- Round " << round << " ---" << std::endl;
+
 		// Make them take turns
 		for(auto& player : m_players)
 		{
-			std::cout << *player << std::endl;
-			player->play();
+			// Awake all the minions on that players side.
+			// Also enable them to attack
+			m_board->refresh(player->id());
+
+			// Do the player actions
 			player->update();
+
+			// Display the result
+			std::cout << *player << std::endl;
+			player->show_hand();
+			std::cout << std::endl;
 		}
 
-		// Only play 1 round
-		break;
+		// Display the board
+		std::cout << "Board" << std::endl;
+		std::cout << std::endl;
+		std::cout << *m_board << std::endl;
+
+		// Only play 1 round, for now!
+		if(round == 4)
+		{
+			break;
+		}
 	}
 }

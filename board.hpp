@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <map>
+#include <algorithm>
 
 #include "card.hpp"
 
@@ -16,16 +17,20 @@ public:
 
 	bool can_add(int id);
 	void add(int id, card c);
+	void refresh(int id);
 	card& at(int id, int index);
+
+	bool is_taunt(int id);
+	bool can_be_attacked(int id, int index);
 	void attack(int aid, int attacker_index, int bid, int target_index);
 
-	friend std::ostream& operator<<(std::ostream& out, const board& b);
+	std::vector<int> cards(int id);
+	std::vector<int> cards_can_attack(int id);
+
+	friend std::ostream& operator<<(std::ostream& out, board& b);
 private:
 
-	player* m_player_one;
 	std::vector<card> m_board_one;
-
-	player* m_player_two;
 	std::vector<card> m_board_two;
 
 	std::map<int, std::vector<card>*> m_board;
@@ -34,6 +39,6 @@ private:
 	unsigned int m_limit;
 };
 
-std::ostream& operator<<(std::ostream& out, const board& b);
+std::ostream& operator<<(std::ostream& out, board& b);
 
 #endif

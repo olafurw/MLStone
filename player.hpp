@@ -25,11 +25,14 @@ public:
 	void show_hand();
 
 	void update();
-	void play();
 
 	void draw();
+	bool can_add_to_board(int index);
 	void add_to_board(int index);
-	void attack(int player_card, board& enemy_board, int enemy_card);
+	void attack(int player_card, int enemy_card);
+
+	std::string name() const;
+	int id() const;
 
 	friend std::ostream& operator<<(std::ostream& out, const player& p);
 

@@ -1,6 +1,13 @@
 #include "utils.hpp"
 
 #include <algorithm>
+#include <chrono>
+
+std::mt19937& random_generator()
+{
+	static std::mt19937 gen(std::chrono::system_clock::now().time_since_epoch().count());
+	return gen;
+}
 
 void trim(std::string& s)
 {
