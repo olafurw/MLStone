@@ -24,6 +24,9 @@ public:
 	void show_board();
 	void show_hand();
 
+	void update();
+	void play();
+
 	void draw();
 	void add_to_board(int index);
 	void attack(int player_card, board& enemy_board, int enemy_card);
@@ -36,6 +39,8 @@ private:
 	std::string m_name;
 	int m_health;
 	int m_max_health;
+	int m_mana;
+	int m_max_mana;
 	int m_armor;
 
 	bool m_alive;

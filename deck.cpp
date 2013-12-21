@@ -71,9 +71,9 @@ deck& deck::operator =(deck&& d)
 	return *this;
 }
 
-bool deck::empty()
+bool deck::can_draw()
 {
-	return m_cards.empty();
+	return !m_cards.empty();
 }
 
 void deck::insert(card c)

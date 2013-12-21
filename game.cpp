@@ -4,27 +4,26 @@ game::game()
 {
 	m_board = std::make_shared<board>();
 
-	m_player_1 = std::make_shared<player>(0, "Waage", 30, 0, m_board);
-	m_player_2 = std::make_shared<player>(1, "Maria", 30, 0, m_board);
-
-	m_players[0] = m_player_1;
-	m_players[1] = m_player_2;
+	m_players.emplace_back(std::make_shared<player>(0, "Waage", 30, 0, m_board));
+	m_players.emplace_back(std::make_shared<player>(1, "Maria", 30, 0, m_board));
 }
 
 void game::update()
 {
 	int current = 0;
 
+	// Game loop
 	while(true)
 	{
-		std::cout << "Player " << (current + 1) << std::endl;
-		std::cout << *m_players[current] << std::endl;
+		// Make them take turns
+		for(auto& player : m_players)
+		{
+			std::cout << *player << std::endl;
+			player->play();
+			player->update();
+		}
 
-		m_players[current]->draw();
-		m_players[current]->show_hand();
-
-		std::cin.get();
-		std::cin.ignore();
-		current = (current + 1) % 2;
+		// Only play 1 round
+		break;
 	}
 }

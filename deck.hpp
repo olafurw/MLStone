@@ -15,7 +15,7 @@ public:
 	deck& operator =(const deck& d);
 	deck& operator =(deck&& d);
 
-	bool empty();
+	bool can_draw();
 	void insert(card c);
 	card draw();
 	void shuffle();

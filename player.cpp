@@ -6,6 +6,8 @@ player::player(int id, std::string name, int health, int armor, std::shared_ptr<
 		m_name(name),
 		m_health(health),
 		m_max_health(health),
+		m_mana(0),
+		m_max_mana(0),
 		m_armor(armor),
 		m_alive(true),
 		m_board(board)
@@ -20,9 +22,13 @@ player::player(const player& p)
 	m_name = p.m_name;
 	m_health = p.m_health;
 	m_max_health = p.m_max_health;
+	m_mana = p.m_mana;
+	m_max_mana = p.m_max_mana;
 	m_armor = p.m_armor;
 	m_alive = p.m_alive;
 	m_board = p.m_board;
+
+	m_board->register_player(m_id, this);
 }
 
 player::player(player&& p)
@@ -32,9 +38,13 @@ player::player(player&& p)
 	m_name = std::move(p.m_name);
 	m_health = p.m_health;
 	m_max_health = p.m_max_health;
+	m_mana = p.m_mana;
+	m_max_mana = p.m_max_mana;
 	m_armor = p.m_armor;
 	m_alive = p.m_alive;
 	m_board = p.m_board;
+
+	m_board->register_player(m_id, this);
 }
 
 player& player::operator =(const player& p)
@@ -46,9 +56,13 @@ player& player::operator =(const player& p)
 		m_name = p.m_name;
 		m_health = p.m_health;
 		m_max_health = p.m_max_health;
+		m_mana = p.m_mana;
+		m_max_mana = p.m_max_mana;
 		m_armor = p.m_armor;
 		m_alive = p.m_alive;
 		m_board = p.m_board;
+
+		m_board->register_player(m_id, this);
 	}
 
 	return *this;
@@ -63,9 +77,13 @@ player& player::operator =(player&& p)
 		m_name = std::move(p.m_name);
 		m_health = p.m_health;
 		m_max_health = p.m_max_health;
+		m_mana = p.m_mana;
+		m_max_mana = p.m_max_mana;
 		m_armor = p.m_armor;
 		m_alive = p.m_alive;
 		m_board = p.m_board;
+
+		m_board->register_player(m_id, this);
 	}
 
 	return *this;
@@ -84,9 +102,30 @@ void player::show_hand()
 	}
 }
 
+void player::update()
+{
+	if(m_max_mana < 10)
+	{
+		++m_max_mana;
+	}
+
+	// Replenish
+	m_mana = m_max_mana;
+
+	draw();
+}
+
+void player::play()
+{
+
+}
+
 void player::draw()
 {
-	m_hand.emplace_back(m_deck.draw());
+	if(m_deck.can_draw())
+	{
+		m_hand.emplace_back(m_deck.draw());
+	}
 }
 
 void player::add_to_board(int index)

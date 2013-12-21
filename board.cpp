@@ -4,8 +4,6 @@
 board::board()
 {
 	m_limit = 10;
-	m_player_one = nullptr;
-	m_player_two = nullptr;
 
 	m_board[0] = &m_board_one;
 	m_board[1] = &m_board_two;
@@ -44,12 +42,10 @@ void board::register_player(int id, player* p)
 {
 	if(id == 0)
 	{
-		m_player_one = p;
 		m_players[0] = p;
 	}
 	else if(id == 1)
 	{
-		m_player_two = p;
 		m_players[1] = p;
 	}
 }
