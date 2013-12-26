@@ -68,8 +68,11 @@ bool board::can_be_attacked(int id, int index)
 
 void board::attack(int aid, int attacker_index, int bid, int target_index)
 {
-	card& attacker_card = m_board[aid]->at(attacker_index);
-	card& target_card = m_board[bid]->at(target_index);
+    std::vector<card>* attacker_board = m_board[aid];
+    std::vector<card>* target_board = m_board[bid];
+
+	card& attacker_card = attacker_board->at(attacker_index);
+	card& target_card = target_board->at(target_index);
 
 	// If the target is not a taunt, we need to go
 	// through the other cards to see if there is any taunt card there
@@ -80,20 +83,20 @@ void board::attack(int aid, int attacker_index, int bid, int target_index)
 		// If the attacker died during that strike, remove it
 		if(!attacker_card.alive())
 		{
-			auto pos = std::find(m_board[aid]->begin(), m_board[aid]->end(), attacker_card);
-			if(pos != m_board[aid]->end())
+			auto pos = std::find(attacker_board->begin(), attacker_board->end(), attacker_card);
+			if(pos != attacker_board->end())
 			{
-				m_board[aid]->erase(pos);
+			    attacker_board->erase(pos);
 			}
 		}
 
 		// If the target died during that strike, remove it
 		if(!target_card.alive())
 		{
-			auto pos = std::find(m_board[bid]->begin(), m_board[bid]->end(), target_card);
-			if(pos != m_board[bid]->end())
+			auto pos = std::find(target_board->begin(), target_board->end(), target_card);
+			if(pos != target_board->end())
 			{
-				m_board[bid]->erase(pos);
+			    target_board->erase(pos);
 			}
 		}
 	}
