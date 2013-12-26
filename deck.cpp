@@ -36,6 +36,16 @@ deck::deck()
 	}
 }
 
+deck::deck(const std::vector<card>& cards)
+{
+    for(card c : cards)
+    {
+        m_cards.emplace_back(c);
+    }
+
+    shuffle();
+}
+
 deck::deck(const deck& d)
 {
 	for(card c : d.m_cards)
@@ -70,6 +80,11 @@ deck& deck::operator =(deck&& d)
 	}
 
 	return *this;
+}
+
+int deck::count()
+{
+    return m_cards.size();
 }
 
 bool deck::can_draw()
