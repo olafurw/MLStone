@@ -99,6 +99,7 @@ void player::show_hand()
 	if(m_hand.empty())
 	{
 		std::cout << "Hand empty" << std::endl;
+		return;
 	}
 
 	for(const card& c : m_hand)
@@ -109,17 +110,21 @@ void player::show_hand()
 
 void player::update()
 {
+	// Add mana
 	if(m_max_mana < 10)
 	{
 		++m_max_mana;
 	}
 
-	// Replenish
+	// Replenish it before the round
 	m_mana = m_max_mana;
 
+	// Get a card
 	draw();
 
+	//
 	// Combat logic here below
+	//
 	for(unsigned int i = 0; i < m_hand.size(); ++i)
 	{
 		if(can_add_to_board(i))
@@ -164,6 +169,7 @@ void player::add_to_board(int index)
 	{
 		int mana_cost = m_hand.at(index).mana();
 
+		// Add to the board and remove it from the hand
 		m_board->add(m_id, m_hand.at(index));
 		m_hand.erase(m_hand.begin() + index);
 

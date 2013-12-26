@@ -40,6 +40,7 @@ card& board::at(int id, int index)
 
 bool board::is_taunt(int id)
 {
+	// Only one taunt card on the board is enough
 	for(auto c : *(m_board[id]))
 	{
 		if(c.taunt())
@@ -132,10 +133,15 @@ void board::register_player(int id, player* p)
 	if(id == 0)
 	{
 		m_players[0] = p;
+
+		return;
 	}
-	else if(id == 1)
+
+	if(id == 1)
 	{
 		m_players[1] = p;
+
+		return;
 	}
 }
 

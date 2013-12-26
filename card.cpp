@@ -107,8 +107,7 @@ void card::attack(card& c)
 		c.do_damage(m_damage);
 		do_damage(c.m_damage);
 
-		std::cout << "[Combat] " << c.name() << " attacked " << m_name << std::endl;
-
+		// Cannot attack again this round until refreshed
 		m_attack = false;
 	}
 }
@@ -127,6 +126,7 @@ void card::do_damage(int damage)
 	{
 		m_health = 0;
 		m_alive = false;
+
 		return;
 	}
 
