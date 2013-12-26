@@ -34,7 +34,10 @@ public:
 
 	std::string name() const;
 	bool taunt() const;
+	bool charge() const;
 	int mana() const;
+	int damage() const;
+	int health() const;
 
 	bool operator ==(const card& c);
 

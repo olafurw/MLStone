@@ -170,9 +170,24 @@ bool card::taunt() const
 	return m_taunt;
 }
 
+bool card::charge() const
+{
+    return m_charge;
+}
+
 int card::mana() const
 {
 	return m_mana;
+}
+
+int card::damage() const
+{
+    return m_damage;
+}
+
+int card::health() const
+{
+    return m_health;
 }
 
 bool card::operator ==(const card& c)
