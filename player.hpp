@@ -35,6 +35,7 @@ public:
 
 	std::string name() const;
 	int id() const;
+	int enemy_id() const;
 	bool alive() const;
 
 	friend std::ostream& operator<<(std::ostream& out, const player& p);
@@ -48,6 +49,7 @@ private:
 	int m_mana;
 	int m_max_mana;
 	int m_armor;
+	int m_fatigue;
 
 	bool m_alive;
 

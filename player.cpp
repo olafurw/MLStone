@@ -10,6 +10,7 @@ player::player(int id, std::string name, int health, int armor, std::shared_ptr<
 		m_max_mana(0),
 		m_armor(armor),
 		m_alive(true),
+		m_fatigue(0),
 		m_board(board)
 {
 	m_board->register_player(m_id, this);
@@ -26,6 +27,7 @@ player::player(const player& p)
 	m_max_mana = p.m_max_mana;
 	m_armor = p.m_armor;
 	m_alive = p.m_alive;
+	m_fatigue = p.m_fatigue;
 	m_board = p.m_board;
 
 	m_board->register_player(m_id, this);
@@ -42,6 +44,7 @@ player::player(player&& p)
 	m_max_mana = p.m_max_mana;
 	m_armor = p.m_armor;
 	m_alive = p.m_alive;
+	m_fatigue = p.m_fatigue;
 	m_board = p.m_board;
 
 	m_board->register_player(m_id, this);
@@ -60,6 +63,7 @@ player& player::operator =(const player& p)
 		m_max_mana = p.m_max_mana;
 		m_armor = p.m_armor;
 		m_alive = p.m_alive;
+		m_fatigue = p.m_fatigue;
 		m_board = p.m_board;
 
 		m_board->register_player(m_id, this);
@@ -81,6 +85,7 @@ player& player::operator =(player&& p)
 		m_max_mana = p.m_max_mana;
 		m_armor = p.m_armor;
 		m_alive = p.m_alive;
+		m_fatigue = p.m_fatigue;
 		m_board = p.m_board;
 
 		m_board->register_player(m_id, this);
@@ -177,9 +182,16 @@ void player::update()
 
 void player::draw()
 {
+	// Draw, else out of cards and will get fatigue
 	if(m_deck.can_draw())
 	{
 		m_hand.emplace_back(m_deck.draw());
+	}
+	else
+	{
+		// Fatigued, since there are no more cards in the deck
+		m_fatigue++;
+		take_damage(m_fatigue);
 	}
 }
 
@@ -235,6 +247,11 @@ std::string player::name() const
 int player::id() const
 {
 	return m_id;
+}
+
+int player::enemy_id() const
+{
+	return m_enemy_id;
 }
 
 bool player::alive() const

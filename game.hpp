@@ -10,7 +10,7 @@ class game
 public:
 	game();
 
-	void update();
+	int play();
 
 private:
 	std::shared_ptr<board> m_board;
