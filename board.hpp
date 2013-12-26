@@ -22,6 +22,7 @@ public:
 
 	bool is_taunt(int id);
 	bool can_be_attacked(int id, int index);
+	void remove(int id, int index);
 	void attack(int aid, int attacker_index, int bid, int target_index);
 	void attack(int aid, int attacker_index, int bid);
 
@@ -40,6 +41,7 @@ private:
 	std::map<int, player*> m_players;
 
 	unsigned int m_limit;
+	bool m_ready;
 };
 
 std::ostream& operator<<(std::ostream& out, board& b);

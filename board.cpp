@@ -7,15 +7,30 @@ board::board()
 
 	m_board[0] = &m_board_one;
 	m_board[1] = &m_board_two;
+
+	m_players[0] == nullptr;
+	m_players[1] == nullptr;
+
+	m_ready = false;
 }
 
 bool board::can_add(int id)
 {
+    if(!m_ready)
+    {
+        return false;
+    }
+
 	return m_board[id]->size() < m_limit;
 }
 
 void board::add(int id, card c)
 {
+    if(!m_ready)
+    {
+        return;
+    }
+
 	// Cannot add a card to a deck past the limit
 	if(m_board[id]->size() == m_limit)
 	{
@@ -27,6 +42,11 @@ void board::add(int id, card c)
 
 void board::refresh(int id)
 {
+    if(!m_ready)
+    {
+        return;
+    }
+
 	for(auto& c : *(m_board[id]))
 	{
 		c.refresh();
@@ -35,11 +55,21 @@ void board::refresh(int id)
 
 card& board::at(int id, int index)
 {
+    if(!m_ready)
+    {
+        throw std::logic_error("Players not registered");
+    }
+
 	return m_board[id]->at(index);
 }
 
 bool board::is_taunt(int id)
 {
+    if(!m_ready)
+    {
+        return false;
+    }
+
 	// Only one taunt card on the board is enough
 	for(auto c : *(m_board[id]))
 	{
@@ -54,6 +84,11 @@ bool board::is_taunt(int id)
 
 bool board::can_be_attacked(int id, int index)
 {
+    if(!m_ready)
+    {
+        return false;
+    }
+
 	card& target_card = m_board[id]->at(index);
 
 	// We can always attack taunt cards
@@ -68,11 +103,13 @@ bool board::can_be_attacked(int id, int index)
 
 void board::attack(int aid, int attacker_index, int bid, int target_index)
 {
-    std::vector<card>* attacker_board = m_board[aid];
-    std::vector<card>* target_board = m_board[bid];
+    if(!m_ready)
+    {
+        return;
+    }
 
-	card& attacker_card = attacker_board->at(attacker_index);
-	card& target_card = target_board->at(target_index);
+	card& attacker_card = m_board[aid]->at(attacker_index);
+	card& target_card = m_board[bid]->at(target_index);
 
 	// If the target is not a taunt, we need to go
 	// through the other cards to see if there is any taunt card there
@@ -83,47 +120,63 @@ void board::attack(int aid, int attacker_index, int bid, int target_index)
 		// If the attacker died during that strike, remove it
 		if(!attacker_card.alive())
 		{
-			auto pos = std::find(attacker_board->begin(), attacker_board->end(), attacker_card);
-			if(pos != attacker_board->end())
-			{
-			    attacker_board->erase(pos);
-			}
+		    remove(aid, attacker_index);
 		}
 
 		// If the target died during that strike, remove it
 		if(!target_card.alive())
 		{
-			auto pos = std::find(target_board->begin(), target_board->end(), target_card);
-			if(pos != target_board->end())
-			{
-			    target_board->erase(pos);
-			}
+		    remove(bid, target_index);
 		}
 	}
 }
 
+void board::remove(int id, int index)
+{
+    if(!m_ready)
+    {
+        return;
+    }
+
+    std::vector<card>* target_board = m_board[id];
+
+    // Find where the card is
+    auto pos = std::find(target_board->begin(), target_board->end(), target_board->at(index));
+
+    // If it is found somewhere, remove it
+    if(pos != target_board->end())
+    {
+        target_board->erase(pos);
+    }
+}
+
 void board::attack(int aid, int attacker_index, int bid)
 {
+    if(!m_ready)
+    {
+        return;
+    }
+
 	// Card to attack with
 	card& attacker_card = m_board[aid]->at(attacker_index);
 
 	// Player to attack
-	player* p = m_players[bid];
-	attacker_card.attack(p);
+	attacker_card.attack(m_players[bid]);
 
 	// If the attacker died during that strike, remove it
 	if(!attacker_card.alive())
 	{
-		auto pos = std::find(m_board[aid]->begin(), m_board[aid]->end(), attacker_card);
-		if(pos != m_board[aid]->end())
-		{
-			m_board[aid]->erase(pos);
-		}
+	    remove(aid, attacker_index);
 	}
 }
 
 bool board::alive(int id)
 {
+    if(!m_ready)
+    {
+        return false;
+    }
+
 	player* p = m_players[id];
 
 	return p->alive();
@@ -131,16 +184,27 @@ bool board::alive(int id)
 
 int board::count(int id)
 {
+    if(!m_ready)
+    {
+        return 0;
+    }
+
 	std::vector<card>* brd = m_board[id];
 
 	return brd->size();
 }
 
+// TODO: Stupid design, remove and do something smarter, like just returning the cards
 std::vector<int> board::cards(int id)
 {
-	std::vector<card>* brd = m_board[id];
-	std::vector<int> list;
+    std::vector<int> list;
 
+    if(!m_ready)
+    {
+        return list;
+    }
+
+	std::vector<card>* brd = m_board[id];
 	for(unsigned int i = 0; i < brd->size(); ++i)
 	{
 		list.push_back(i);
@@ -151,9 +215,14 @@ std::vector<int> board::cards(int id)
 
 std::vector<int> board::cards_can_attack(int id)
 {
-	std::vector<card>* brd = m_board[id];
-	std::vector<int> list;
+    std::vector<int> list;
 
+    if(!m_ready)
+    {
+        return list;
+    }
+
+	std::vector<card>* brd = m_board[id];
 	for(unsigned int i = 0; i < brd->size(); ++i)
 	{
 		if(can_be_attacked(id, i))
@@ -170,6 +239,7 @@ void board::register_player(int id, player* p)
 	if(id == 0)
 	{
 		m_players[0] = p;
+		m_ready = (m_players[0] != nullptr && m_players[1] != nullptr);
 
 		return;
 	}
@@ -177,6 +247,7 @@ void board::register_player(int id, player* p)
 	if(id == 1)
 	{
 		m_players[1] = p;
+		m_ready = (m_players[0] != nullptr && m_players[1] != nullptr);
 
 		return;
 	}
@@ -184,6 +255,11 @@ void board::register_player(int id, player* p)
 
 std::ostream& operator<<(std::ostream& out, board& b)
 {
+    if(!b.m_ready)
+    {
+        return out;
+    }
+
 	for(auto p : b.m_players)
 	{
 		out << p.second->name() << std::endl;
