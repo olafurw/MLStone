@@ -4,6 +4,8 @@
 #include <string>
 #include <ostream>
 
+class player;
+
 class card
 {
 public:
@@ -23,6 +25,7 @@ public:
 	card& operator =(card&& c);
 
 	void attack(card& c);
+	void attack(player* p);
 	void refresh();
 
 	bool can_attack();

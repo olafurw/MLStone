@@ -99,6 +99,40 @@ void board::attack(int aid, int attacker_index, int bid, int target_index)
 	}
 }
 
+void board::attack(int aid, int attacker_index, int bid)
+{
+	// Card to attack with
+	card& attacker_card = m_board[aid]->at(attacker_index);
+
+	// Player to attack
+	player* p = m_players[bid];
+	attacker_card.attack(p);
+
+	// If the attacker died during that strike, remove it
+	if(!attacker_card.alive())
+	{
+		auto pos = std::find(m_board[aid]->begin(), m_board[aid]->end(), attacker_card);
+		if(pos != m_board[aid]->end())
+		{
+			m_board[aid]->erase(pos);
+		}
+	}
+}
+
+bool board::alive(int id)
+{
+	player* p = m_players[id];
+
+	return p->alive();
+}
+
+int board::count(int id)
+{
+	std::vector<card>* brd = m_board[id];
+
+	return brd->size();
+}
+
 std::vector<int> board::cards(int id)
 {
 	std::vector<card>* brd = m_board[id];

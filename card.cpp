@@ -1,5 +1,6 @@
 #include "card.hpp"
 #include "utils.hpp"
+#include "player.hpp"
 
 #include <utility>
 #include <iostream>
@@ -106,6 +107,17 @@ void card::attack(card& c)
 	{
 		c.do_damage(m_damage);
 		do_damage(c.m_damage);
+
+		// Cannot attack again this round until refreshed
+		m_attack = false;
+	}
+}
+
+void card::attack(player* p)
+{
+	if(m_awake && m_attack)
+	{
+		p->take_damage(m_damage);
 
 		// Cannot attack again this round until refreshed
 		m_attack = false;

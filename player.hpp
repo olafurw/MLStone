@@ -30,9 +30,12 @@ public:
 	bool can_add_to_board(int index);
 	void add_to_board(int index);
 	void attack(int player_card, int enemy_card);
+	void attack(int player_card);
+	void take_damage(int damage);
 
 	std::string name() const;
 	int id() const;
+	bool alive() const;
 
 	friend std::ostream& operator<<(std::ostream& out, const player& p);
 

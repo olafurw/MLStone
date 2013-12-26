@@ -23,7 +23,10 @@ public:
 	bool is_taunt(int id);
 	bool can_be_attacked(int id, int index);
 	void attack(int aid, int attacker_index, int bid, int target_index);
+	void attack(int aid, int attacker_index, int bid);
 
+	bool alive(int id);
+	int count(int id);
 	std::vector<int> cards(int id);
 	std::vector<int> cards_can_attack(int id);
 

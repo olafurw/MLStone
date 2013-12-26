@@ -125,6 +125,8 @@ void player::update()
 	//
 	// Combat logic here below
 	//
+
+	// Add one the first card to the board you can
 	for(unsigned int i = 0; i < m_hand.size(); ++i)
 	{
 		if(can_add_to_board(i))
@@ -134,17 +136,40 @@ void player::update()
 		}
 	}
 
-	for(auto player_card_id : m_board->cards(m_id))
+	// If there are no cards to attack, attack the player
+	if(m_board->count(m_enemy_id) == 0)
 	{
-		card& player_card = m_board->at(m_id, player_card_id);
-
-		if(player_card.awake() && player_card.can_attack())
+		for(auto player_card_id : m_board->cards(m_id))
 		{
-			// Attack the first card that you can
-			for(auto enemy_card_id : m_board->cards_can_attack(m_enemy_id))
+			// If the enemy is dead, we are done
+			if(!m_board->alive(m_enemy_id))
 			{
-				attack(player_card_id, enemy_card_id);
 				return;
+			}
+
+			card& player_card = m_board->at(m_id, player_card_id);
+
+			if(player_card.awake() && player_card.can_attack())
+			{
+				attack(player_card_id);
+				return;
+			}
+		}
+	}
+	else
+	{
+		// Attack the first card that you can
+		for(auto player_card_id : m_board->cards(m_id))
+		{
+			card& player_card = m_board->at(m_id, player_card_id);
+
+			if(player_card.awake() && player_card.can_attack())
+			{
+				for(auto enemy_card_id : m_board->cards_can_attack(m_enemy_id))
+				{
+					attack(player_card_id, enemy_card_id);
+					return;
+				}
 			}
 		}
 	}
@@ -182,6 +207,26 @@ void player::attack(int player_card, int enemy_card)
 	m_board->attack(m_id, player_card, m_enemy_id, enemy_card);
 }
 
+void player::attack(int player_card)
+{
+	m_board->attack(m_id, player_card, m_enemy_id);
+}
+
+void player::take_damage(int damage)
+{
+	// We do not want health to go below zero.
+	// Here the player dies.
+	if(m_health - damage <= 0)
+	{
+		m_health = 0;
+		m_alive = false;
+
+		return;
+	}
+
+	m_health -= damage;
+}
+
 std::string player::name() const
 {
 	return m_name;
@@ -190,6 +235,11 @@ std::string player::name() const
 int player::id() const
 {
 	return m_id;
+}
+
+bool player::alive() const
+{
+	return m_alive;
 }
 
 std::ostream& operator<<(std::ostream& out, const player& p)

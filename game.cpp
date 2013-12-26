@@ -40,10 +40,12 @@ void game::update()
 		std::cout << std::endl;
 		std::cout << *m_board << std::endl;
 
-		// Only play 1 round, for now!
-		if(round == 4)
+		for(auto& player : m_players)
 		{
-			break;
+			if(!player->alive())
+			{
+				return;
+			}
 		}
 	}
 }
