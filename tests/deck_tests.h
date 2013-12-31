@@ -68,4 +68,19 @@ public:
         TS_ASSERT_EQUALS(0, d.count());
         TS_ASSERT(!d.can_draw());
     }
+
+    void testClear()
+    {
+        std::vector<card> cards { card("test", 1, 2, 3, true, false),
+                                  card("test", 1, 2, 3, true, false),
+                                  card("test", 1, 2, 3, true, false) };
+
+        deck d(cards);
+
+        TS_ASSERT_EQUALS(3, d.count());
+
+        d.clear();
+
+        TS_ASSERT_EQUALS(0, d.count());
+    }
 };

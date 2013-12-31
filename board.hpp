@@ -28,6 +28,8 @@ public:
 
 	bool alive(int id);
 	int count(int id);
+	void clear(int id);
+	void clear();
 	std::vector<int> cards(int id);
 	std::vector<int> cards_can_attack(int id);
 

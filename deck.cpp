@@ -10,40 +10,11 @@
 deck::deck()
 {
 	srand(time(NULL));
-	std::ifstream cards("cards.txt");
-
-	if(cards.is_open())
-	{
-		int mana;
-		int damage;
-		int health;
-		int taunt;
-		int charge;
-		std::string name;
-
-		while(!cards.eof())
-		{
-			cards >> mana >> damage >> health >> taunt >> charge;
-			std::getline(cards, name);
-			trim(name);
-
-			card c(name, mana, damage, health, (taunt > 0 ? true : false), (charge > 0 ? true : false));
-
-			m_cards.emplace_back(c);
-		}
-
-		shuffle();
-	}
 }
 
 deck::deck(const std::vector<card>& cards)
 {
-    for(card c : cards)
-    {
-        m_cards.emplace_back(c);
-    }
-
-    shuffle();
+    insert(cards);
 }
 
 deck::deck(const deck& d)
@@ -82,6 +53,44 @@ deck& deck::operator =(deck&& d)
 	return *this;
 }
 
+void deck::insert(const std::vector<card>& cards)
+{
+    for(card c : cards)
+    {
+        m_cards.push_back(c);
+    }
+
+    shuffle();
+}
+
+void deck::insert(const std::string& filename)
+{
+    std::ifstream cards(filename);
+
+    if(cards.is_open())
+    {
+        int mana;
+        int damage;
+        int health;
+        int taunt;
+        int charge;
+        std::string name;
+
+        while(!cards.eof())
+        {
+            cards >> mana >> damage >> health >> taunt >> charge;
+            std::getline(cards, name);
+            trim(name);
+
+            card c(name, mana, damage, health, (taunt > 0 ? true : false), (charge > 0 ? true : false));
+
+            m_cards.emplace_back(c);
+        }
+
+        shuffle();
+    }
+}
+
 int deck::count()
 {
     return m_cards.size();
@@ -90,14 +99,6 @@ int deck::count()
 bool deck::can_draw()
 {
 	return !m_cards.empty();
-}
-
-void deck::insert(card c)
-{
-	// This is more expensive than push_back
-	// but we insert in bulk and remove one at a time
-	// so it should be nicer.
-	m_cards.insert(m_cards.begin(), c);
 }
 
 card deck::draw()
@@ -111,4 +112,9 @@ void deck::shuffle()
 {
 	// the deck is a vector so we can do this
 	std::shuffle(m_cards.begin(), m_cards.end(), random_generator());
+}
+
+void deck::clear()
+{
+    m_cards.clear();
 }

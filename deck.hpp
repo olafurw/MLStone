@@ -16,11 +16,13 @@ public:
 	deck& operator =(const deck& d);
 	deck& operator =(deck&& d);
 
+	void insert(const std::vector<card>& cards);
+	void insert(const std::string& filename);
 	int count();
 	bool can_draw();
-	void insert(card c);
 	card draw();
 	void shuffle();
+	void clear();
 
 private:
 	std::vector<card> m_cards;

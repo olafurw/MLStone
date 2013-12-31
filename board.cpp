@@ -140,6 +140,12 @@ void board::remove(int id, int index)
 
     std::vector<card>* target_board = m_board[id];
 
+    // Index is not in the board
+    if(target_board->size() <= index)
+    {
+        return;
+    }
+
     // Find where the card is
     auto pos = std::find(target_board->begin(), target_board->end(), target_board->at(index));
 
@@ -192,6 +198,27 @@ int board::count(int id)
 	std::vector<card>* brd = m_board[id];
 
 	return brd->size();
+}
+
+void board::clear(int id)
+{
+    if(!m_ready)
+    {
+        return;
+    }
+
+    m_board[id]->clear();
+}
+
+void board::clear()
+{
+    if(!m_ready)
+    {
+        return;
+    }
+
+    m_board[0]->clear();
+    m_board[1]->clear();
 }
 
 // TODO: Stupid design, remove and do something smarter, like just returning the cards

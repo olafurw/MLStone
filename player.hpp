@@ -15,6 +15,7 @@ class player
 public:
 	player() = delete;
 	player(int id, std::string name, int health, int armor, std::shared_ptr<board> board);
+	player(int id, std::string name, int health, int armor, std::shared_ptr<board> board, const std::vector<card>& cards);
 	player(const player& p);
 	player(player&& p);
 

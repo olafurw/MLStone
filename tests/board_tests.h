@@ -120,4 +120,68 @@ public:
         TS_ASSERT_EQUALS(true, brd->can_be_attacked(1, 0));
         TS_ASSERT_EQUALS(false, brd->can_be_attacked(1, 1));
     }
+
+    void testCardRemove()
+    {
+        auto brd = std::make_shared<board>();
+
+        std::vector<std::shared_ptr<player>> players;
+        players.emplace_back(std::make_shared<player>(0, "a", 30, 0, brd));
+        players.emplace_back(std::make_shared<player>(1, "b", 30, 0, brd));
+
+        brd->add(0, card("a_card", 1, 1, 1, false, false));
+        brd->add(1, card("b_card", 1, 1, 1, false, false));
+
+        TS_ASSERT_EQUALS(1, brd->count(0));
+        TS_ASSERT_EQUALS(1, brd->count(1));
+
+        brd->remove(0, 0);
+
+        TS_ASSERT_EQUALS(0, brd->count(0));
+        TS_ASSERT_EQUALS(1, brd->count(1));
+
+        brd->remove(1, 0);
+
+        TS_ASSERT_EQUALS(0, brd->count(0));
+        TS_ASSERT_EQUALS(0, brd->count(1));
+
+        brd->remove(0, 0);
+        brd->remove(1, 0);
+
+        TS_ASSERT_EQUALS(0, brd->count(0));
+        TS_ASSERT_EQUALS(0, brd->count(1));
+    }
+
+    void testBoardClear()
+    {
+        auto brd = std::make_shared<board>();
+
+        std::vector<std::shared_ptr<player>> players;
+        players.emplace_back(std::make_shared<player>(0, "a", 30, 0, brd));
+        players.emplace_back(std::make_shared<player>(1, "b", 30, 0, brd));
+
+        brd->add(0, card("a_card", 1, 1, 1, false, false));
+        brd->add(1, card("b_card", 1, 1, 1, false, false));
+
+        brd->clear(0);
+
+        TS_ASSERT_EQUALS(0, brd->count(0));
+        TS_ASSERT_EQUALS(1, brd->count(1));
+
+        brd->clear(1);
+
+        TS_ASSERT_EQUALS(0, brd->count(0));
+        TS_ASSERT_EQUALS(0, brd->count(1));
+
+        brd->add(0, card("a_card", 1, 1, 1, false, false));
+        brd->add(1, card("b_card", 1, 1, 1, false, false));
+
+        TS_ASSERT_EQUALS(1, brd->count(0));
+        TS_ASSERT_EQUALS(1, brd->count(1));
+
+        brd->clear();
+
+        TS_ASSERT_EQUALS(0, brd->count(0));
+        TS_ASSERT_EQUALS(0, brd->count(1));
+    }
 };

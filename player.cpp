@@ -13,7 +13,25 @@ player::player(int id, std::string name, int health, int armor, std::shared_ptr<
 		m_fatigue(0),
 		m_board(board)
 {
+    m_deck.insert("cards.txt");
 	m_board->register_player(m_id, this);
+}
+
+player::player(int id, std::string name, int health, int armor, std::shared_ptr<board> board, const std::vector<card>& cards):
+        m_id(id),
+        m_enemy_id((id + 1) % 2),
+        m_name(name),
+        m_health(health),
+        m_max_health(health),
+        m_mana(0),
+        m_max_mana(0),
+        m_armor(armor),
+        m_alive(true),
+        m_fatigue(0),
+        m_board(board)
+{
+    m_deck.insert(cards);
+    m_board->register_player(m_id, this);
 }
 
 player::player(const player& p)
