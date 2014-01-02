@@ -74,15 +74,16 @@ void deck::insert(const std::string& filename)
         int health;
         int taunt;
         int charge;
+        int shield;
         std::string name;
 
         while(!cards.eof())
         {
-            cards >> mana >> damage >> health >> taunt >> charge;
+            cards >> mana >> damage >> health >> taunt >> charge >> shield;
             std::getline(cards, name);
             trim(name);
 
-            card c(name, mana, damage, health, (taunt > 0 ? true : false), (charge > 0 ? true : false));
+            card c(name, mana, damage, health, (taunt > 0 ? true : false), (charge > 0 ? true : false), (shield > 0 ? true : false));
 
             m_cards.emplace_back(c);
         }

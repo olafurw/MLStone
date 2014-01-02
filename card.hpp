@@ -16,7 +16,8 @@ public:
 	     int damage,
 	     int health,
 	     bool taunt,
-	     bool charge);
+	     bool charge,
+	     bool shield);
 
 	card(const card& c);
 	card(card&& c);
@@ -33,6 +34,7 @@ public:
 	bool awake();
 
 	std::string name() const;
+	bool shield() const;
 	bool taunt() const;
 	bool charge() const;
 	int mana() const;
@@ -53,6 +55,7 @@ private:
 	int m_health;
 	int m_max_health;
 
+	bool m_shield;
 	bool m_charge;
 	bool m_taunt;
 	bool m_attack;

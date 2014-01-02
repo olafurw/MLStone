@@ -10,12 +10,14 @@ card::card(const std::string& name,
 		   int damage,
 		   int health,
 		   bool taunt,
-		   bool charge):
+		   bool charge,
+		   bool shield):
 	m_name(name),
 	m_mana(mana), m_damage(damage),
 	m_health(health), m_max_health(health),
 	m_taunt(taunt),
 	m_charge(charge),
+	m_shield(shield),
 	m_attack(charge),
 	m_alive(true),
 	m_awake(charge)
@@ -33,6 +35,7 @@ card::card(const card& c)
 	m_health = c.m_health;
 	m_max_health = c.m_max_health;
 
+	m_shield = c.m_shield;
 	m_taunt = c.m_taunt;
 	m_charge = c.m_charge;
 	m_attack = c.m_attack;
@@ -50,6 +53,7 @@ card::card(card&& c)
 	m_health = c.m_health;
 	m_max_health = c.m_max_health;
 
+	m_shield = c.m_shield;
 	m_taunt = c.m_taunt;
 	m_charge = c.m_charge;
 	m_attack = c.m_attack;
@@ -69,6 +73,7 @@ card& card::operator =(const card& c)
 		m_health = c.m_health;
 		m_max_health = c.m_max_health;
 
+		m_shield = c.m_shield;
 		m_taunt = c.m_taunt;
 		m_charge = c.m_charge;
 		m_attack = c.m_attack;
@@ -91,6 +96,7 @@ card& card::operator =(card&& c)
 		m_health = c.m_health;
 		m_max_health = c.m_max_health;
 
+		m_shield = c.m_shield;
 		m_taunt = c.m_taunt;
 		m_charge = c.m_charge;
 		m_attack = c.m_attack;
@@ -132,6 +138,13 @@ void card::refresh()
 
 void card::do_damage(int damage)
 {
+    if(m_shield)
+    {
+        m_shield = false;
+
+        return;
+    }
+
 	// We do not want health to go below zero.
 	// Here the card dies.
 	if(m_health - damage <= 0)
@@ -163,6 +176,11 @@ bool card::awake()
 std::string card::name() const
 {
 	return m_name;
+}
+
+bool card::shield() const
+{
+    return m_shield;
 }
 
 bool card::taunt() const
