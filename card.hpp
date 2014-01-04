@@ -17,7 +17,8 @@ public:
 	     int health,
 	     bool taunt,
 	     bool charge,
-	     bool shield);
+	     bool shield,
+	     bool windfury);
 
 	card(const card& c);
 	card(card&& c);
@@ -37,6 +38,7 @@ public:
 	bool shield() const;
 	bool taunt() const;
 	bool charge() const;
+	bool windfury() const;
 	int mana() const;
 	int damage() const;
 	int health() const;
@@ -61,6 +63,10 @@ private:
 	bool m_attack;
 	bool m_awake;
 	bool m_alive;
+	bool m_windfury;
+
+	int m_attack_count;
+	int m_max_attack_count;
 
 	std::string m_name;
 };

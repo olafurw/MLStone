@@ -11,7 +11,8 @@ card::card(const std::string& name,
 		   int health,
 		   bool taunt,
 		   bool charge,
-		   bool shield):
+		   bool shield,
+		   bool windfury):
 	m_name(name),
 	m_mana(mana), m_damage(damage),
 	m_health(health), m_max_health(health),
@@ -20,7 +21,10 @@ card::card(const std::string& name,
 	m_shield(shield),
 	m_attack(charge),
 	m_alive(true),
-	m_awake(charge)
+	m_awake(charge),
+	m_windfury(windfury),
+	m_attack_count((m_windfury ? 2 : 1)),
+	m_max_attack_count(m_attack_count)
 {
 	m_id = random_generator()();
 }
@@ -41,6 +45,9 @@ card::card(const card& c)
 	m_attack = c.m_attack;
 	m_alive = c.m_alive;
 	m_awake = c.m_awake;
+	m_windfury = c.m_windfury;
+	m_attack_count = c.m_attack_count;
+	m_max_attack_count = c.m_max_attack_count;
 }
 
 card::card(card&& c)
@@ -59,6 +66,9 @@ card::card(card&& c)
 	m_attack = c.m_attack;
 	m_alive = c.m_alive;
 	m_awake = c.m_awake;
+	m_windfury = c.m_windfury;
+    m_attack_count = c.m_attack_count;
+    m_max_attack_count = c.m_max_attack_count;
 }
 
 card& card::operator =(const card& c)
@@ -79,6 +89,9 @@ card& card::operator =(const card& c)
 		m_attack = c.m_attack;
 		m_alive = c.m_alive;
 		m_awake = c.m_awake;
+		m_windfury = c.m_windfury;
+	    m_attack_count = c.m_attack_count;
+	    m_max_attack_count = c.m_max_attack_count;
 	}
 
 	return *this;
@@ -102,6 +115,9 @@ card& card::operator =(card&& c)
 		m_attack = c.m_attack;
 		m_alive = c.m_alive;
 		m_awake = c.m_awake;
+		m_windfury = c.m_windfury;
+	    m_attack_count = c.m_attack_count;
+	    m_max_attack_count = c.m_max_attack_count;
 	}
 
 	return *this;
@@ -109,24 +125,34 @@ card& card::operator =(card&& c)
 
 void card::attack(card& c)
 {
-	if(m_awake && m_attack)
+	if(m_awake && m_attack && m_attack_count > 0)
 	{
 		c.do_damage(m_damage);
 		do_damage(c.m_damage);
 
+		--m_attack_count;
+
 		// Cannot attack again this round until refreshed
-		m_attack = false;
+		if(m_attack_count == 0)
+		{
+		    m_attack = false;
+		}
 	}
 }
 
 void card::attack(player* p)
 {
-	if(m_awake && m_attack)
+	if(m_awake && m_attack && m_attack_count > 0)
 	{
 		p->take_damage(m_damage);
 
-		// Cannot attack again this round until refreshed
-		m_attack = false;
+        --m_attack_count;
+
+        // Cannot attack again this round until refreshed
+        if(m_attack_count == 0)
+        {
+            m_attack = false;
+        }
 	}
 }
 
@@ -134,6 +160,7 @@ void card::refresh()
 {
 	m_attack = true;
 	m_awake = true;
+	m_attack_count = m_max_attack_count;
 }
 
 void card::do_damage(int damage)
@@ -191,6 +218,11 @@ bool card::taunt() const
 bool card::charge() const
 {
     return m_charge;
+}
+
+bool card::windfury() const
+{
+    return m_windfury;
 }
 
 int card::mana() const

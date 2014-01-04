@@ -75,15 +75,16 @@ void deck::insert(const std::string& filename)
         int taunt;
         int charge;
         int shield;
+        int windfury;
         std::string name;
 
         while(!cards.eof())
         {
-            cards >> mana >> damage >> health >> taunt >> charge >> shield;
+            cards >> mana >> damage >> health >> taunt >> charge >> shield >> windfury;
             std::getline(cards, name);
             trim(name);
 
-            card c(name, mana, damage, health, (taunt > 0 ? true : false), (charge > 0 ? true : false), (shield > 0 ? true : false));
+            card c(name, mana, damage, health, (taunt > 0 ? true : false), (charge > 0 ? true : false), (shield > 0 ? true : false), (windfury > 0 ? true : false));
 
             m_cards.emplace_back(c);
         }

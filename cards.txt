@@ -1,10 +1,10 @@
-1 2 1 0 0 0 Defias Bandit
-6 6 7 0 0 0 Boulderfist Ogre
-4 4 3 0 0 0 Houndmaster
-3 5 1 0 1 0 Magma Rager
-5 4 4 0 1 0 Nightblade
-2 1 2 0 0 0 Novice Engineer
-4 3 5 1 0 0 Sen'jin Shieldmasta
-5 5 4 1 0 1 Booty Bay Bodyguard
-2 2 2 1 1 0 Frostwolf Grunt
-1 1 2 1 0 0 Goldshire Footman
+1 2 1 0 0 0 0 Defias Bandit
+6 6 7 0 0 0 0 Boulderfist Ogre
+4 4 3 0 0 0 0 Houndmaster
+3 5 1 0 1 0 0 Magma Rager
+5 4 4 0 1 0 1 Nightblade
+2 1 2 0 0 0 0 Novice Engineer
+4 3 5 1 0 0 0 Sen'jin Shieldmasta
+5 5 4 1 0 1 0 Booty Bay Bodyguard
+2 2 2 1 1 0 0 Frostwolf Grunt
+1 1 2 1 0 0 0 Goldshire Footman
