@@ -5,7 +5,7 @@ int main()
 	int game_count = 0;
 	int win_count = 0;
 
-	for(int i = 0; i < 100000; ++i)
+	for(int i = 0; i < 10000; ++i)
 	{
 		game g;
 		int winner = g.play();

@@ -17,8 +17,6 @@ int game::play()
 	{
 		round++;
 
-		//std::cout << "--- Round " << round << " ---" << std::endl;
-
 		// Make them take turns
 		for(auto& player : m_players)
 		{
@@ -28,18 +26,9 @@ int game::play()
 
 			// Do the player actions
 			player->update();
-
-			// Display the result
-			/*std::cout << *player << std::endl;
-			player->show_hand();
-			std::cout << std::endl;*/
 		}
 
-		// Display the board
-		/*std::cout << "Board" << std::endl;
-		std::cout << std::endl;
-		std::cout << *m_board << std::endl;*/
-
+		// Game is over
 		for(auto& player : m_players)
 		{
 			if(!player->alive())
