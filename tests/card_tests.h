@@ -129,4 +129,34 @@ public:
         TS_ASSERT_EQUALS(2, c1.health());
         TS_ASSERT_EQUALS(1, c2.health());
     }
+
+    void testAttackWindfury()
+    {
+        card c1("test", 1, 1, 5, false, false, false, true);
+        card c2("test", 1, 1, 5, false, false, false, false);
+
+        TS_ASSERT_EQUALS(true, c1.windfury());
+        TS_ASSERT_EQUALS(false, c2.windfury());
+
+        TS_ASSERT_EQUALS(5, c1.health());
+        TS_ASSERT_EQUALS(5, c2.health());
+
+        c1.refresh();
+        c2.refresh();
+
+        c1.attack(c2);
+        c1.attack(c2);
+
+        TS_ASSERT_EQUALS(3, c1.health());
+        TS_ASSERT_EQUALS(3, c2.health());
+
+        c1.refresh();
+        c2.refresh();
+
+        c1.attack(c2);
+        c1.attack(c2);
+
+        TS_ASSERT_EQUALS(1, c1.health());
+        TS_ASSERT_EQUALS(1, c2.health());
+    }
 };
