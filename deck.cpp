@@ -9,7 +9,6 @@
 
 deck::deck()
 {
-	srand(time(NULL));
 }
 
 deck::deck(const std::vector<card>& cards)

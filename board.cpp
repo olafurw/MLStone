@@ -31,13 +31,15 @@ void board::add(int id, card c)
         return;
     }
 
+    std::vector<card>* brd = m_board[id];
+
 	// Cannot add a card to a deck past the limit
-	if(m_board[id]->size() == m_limit)
+	if(brd->size() == m_limit)
 	{
 		return;
 	}
 
-	m_board[id]->emplace_back(c);
+	brd->emplace_back(c);
 }
 
 void board::refresh(int id)

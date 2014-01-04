@@ -2,6 +2,8 @@
 
 int main()
 {
+    srand(time(NULL));
+
 	int game_count = 0;
 	int win_count = 0;
 
