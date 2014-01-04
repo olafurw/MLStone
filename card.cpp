@@ -210,9 +210,19 @@ bool card::shield() const
     return m_shield;
 }
 
+void card::give_shield()
+{
+    m_shield = true;
+}
+
 bool card::taunt() const
 {
 	return m_taunt;
+}
+
+void card::give_taunt()
+{
+    m_taunt = true;
 }
 
 bool card::charge() const
@@ -220,9 +230,21 @@ bool card::charge() const
     return m_charge;
 }
 
+void card::give_charge()
+{
+    m_charge = true;
+}
+
 bool card::windfury() const
 {
     return m_windfury;
+}
+
+void card::give_windfury()
+{
+    m_windfury = true;
+    m_attack_count = 2;
+    m_max_attack_count = 2;
 }
 
 int card::mana() const

@@ -36,9 +36,13 @@ public:
 
 	std::string name() const;
 	bool shield() const;
+	void give_shield();
 	bool taunt() const;
+	void give_taunt();
 	bool charge() const;
+	void give_charge();
 	bool windfury() const;
+	void give_windfury();
 	int mana() const;
 	int damage() const;
 	int health() const;

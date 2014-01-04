@@ -159,4 +159,24 @@ public:
         TS_ASSERT_EQUALS(1, c1.health());
         TS_ASSERT_EQUALS(1, c2.health());
     }
+
+    void testGiveModifiers()
+    {
+        card c1("test", 1, 1, 1, false, false, false, false);
+
+        TS_ASSERT_EQUALS(false, c1.taunt());
+        TS_ASSERT_EQUALS(false, c1.charge());
+        TS_ASSERT_EQUALS(false, c1.shield());
+        TS_ASSERT_EQUALS(false, c1.windfury());
+
+        c1.give_taunt();
+        c1.give_charge();
+        c1.give_shield();
+        c1.give_windfury();
+
+        TS_ASSERT_EQUALS(true, c1.taunt());
+        TS_ASSERT_EQUALS(true, c1.charge());
+        TS_ASSERT_EQUALS(true, c1.shield());
+        TS_ASSERT_EQUALS(true, c1.windfury());
+    }
 };
