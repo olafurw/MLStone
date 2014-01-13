@@ -1,27 +1,36 @@
 #include "game.hpp"
+#include "card_generator.hpp"
 
 int main()
 {
     srand(time(NULL));
 
-	int game_count = 0;
-	int win_count = 0;
+    while(true)
+    {
+        card_generator cg;
 
-	for(int i = 0; i < 10000; ++i)
-	{
-		game g;
-		int winner = g.play();
+        int game_count = 0;
+        int win_count = 0;
 
-		if(winner == 1)
-		{
-			win_count++;
-		}
+        for(int i = 0; i < 1000; ++i)
+        {
+            game g(cg);
+            int winner = g.play();
 
-		game_count++;
-	}
+            if(winner == 1)
+            {
+                win_count++;
+            }
 
-	std::cout << win_count << std::endl;
-	std::cout << game_count << std::endl;
+            game_count++;
+        }
+
+        //if(win_count > 498 && win_count < 502)
+        {
+            std::cout << win_count << std::endl;
+            std::cout << game_count << std::endl;
+        }
+    }
 
 	return 0;
 }

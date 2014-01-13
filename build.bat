@@ -1,1 +1,1 @@
-g++ -std=c++11 -g -o MLStone main.cpp game.cpp card.cpp player.cpp deck.cpp board.cpp utils.cpp
+g++ -std=c++11 -g -o MLStone main.cpp game.cpp card.cpp player.cpp deck.cpp board.cpp utils.cpp card_generator.cpp

@@ -4,11 +4,12 @@
 
 #include "board.hpp"
 #include "player.hpp"
+#include "card_generator.hpp"
 
 class game
 {
 public:
-	game();
+	game(card_generator& cg);
 
 	int play();
 
