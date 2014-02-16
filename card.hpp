@@ -5,9 +5,12 @@
 #include <ostream>
 #include <vector>
 
+#include "target.hpp"
+#include "effect.hpp"
+
 class player;
 
-class card
+class card: public target
 {
 public:
     card() = delete;
@@ -32,6 +35,7 @@ public:
 	void refresh();
 
 	bool can_attack();
+	void take_damage(int damage);
 	bool alive();
 	bool awake();
 
@@ -48,12 +52,14 @@ public:
 	int damage() const;
 	int health() const;
 
+	void add_battle_cry(effect& e);
+	void process_battle_cry();
+
 	bool operator ==(const card& c);
 
 	friend std::ostream& operator<<(std::ostream& out, const card& c);
 
 private:
-	void do_damage(int damage);
 
 	int m_id;
 
@@ -74,6 +80,10 @@ private:
 	int m_max_attack_count;
 
 	std::string m_name;
+
+	std::vector<effect> m_battle_cry;
+	std::vector<effect> m_each_round;
+	std::vector<effect> m_death_rattle;
 };
 
 std::ostream& operator<<(std::ostream& out, const card& c);

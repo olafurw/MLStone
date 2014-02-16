@@ -19,6 +19,7 @@ int game::play()
 	m_players.at(1)->draw();
 	m_players.at(1)->draw();
 	m_players.at(1)->draw();
+	m_players.at(1)->draw();
 
 	// Game loop
 	while(true)

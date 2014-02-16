@@ -13,6 +13,7 @@ card::card(const std::string& name,
 		   bool charge,
 		   bool shield,
 		   bool windfury):
+	target(target::type::card),
 	m_name(name),
 	m_mana(mana), m_damage(damage),
 	m_health(health), m_max_health(health),
@@ -29,7 +30,7 @@ card::card(const std::string& name,
 	m_id = random_generator()();
 }
 
-card::card(const card& c)
+card::card(const card& c): target(target::type::card)
 {
 	m_id = c.m_id;
 	m_name = c.m_name;
@@ -50,7 +51,7 @@ card::card(const card& c)
 	m_max_attack_count = c.m_max_attack_count;
 }
 
-card::card(card&& c)
+card::card(card&& c): target(target::type::card)
 {
 	m_id = c.m_id;
 	m_name = std::move(c.m_name);
@@ -75,6 +76,7 @@ card& card::operator =(const card& c)
 {
 	if(this != &c)
 	{
+	    m_type = c.m_type;
 		m_id = c.m_id;
 		m_name = c.m_name;
 
@@ -101,6 +103,7 @@ card& card::operator =(card&& c)
 {
 	if(this != &c)
 	{
+	    m_type = c.m_type;
 		m_id = c.m_id;
 		m_name = std::move(c.m_name);
 
@@ -127,8 +130,8 @@ void card::attack(card& c)
 {
 	if(m_awake && m_attack && m_attack_count > 0)
 	{
-		c.do_damage(m_damage);
-		do_damage(c.m_damage);
+		c.take_damage(m_damage);
+		take_damage(c.m_damage);
 
 		--m_attack_count;
 
@@ -163,7 +166,7 @@ void card::refresh()
 	m_attack_count = m_max_attack_count;
 }
 
-void card::do_damage(int damage)
+void card::take_damage(int damage)
 {
     if(m_shield)
     {
@@ -262,6 +265,19 @@ int card::health() const
     return m_health;
 }
 
+void card::add_battle_cry(effect& e)
+{
+    m_battle_cry.push_back(e);
+}
+
+void card::process_battle_cry()
+{
+    for(auto& effect : m_battle_cry)
+    {
+        effect.process();
+    }
+}
+
 bool card::operator ==(const card& c)
 {
 	return m_name == c.m_name &&
@@ -272,10 +288,15 @@ bool card::operator ==(const card& c)
 std::ostream& operator<<(std::ostream& out, const card& c)
 {
 	out << "[Card] " << c.m_name
-		<< (c.m_taunt ? " - [T]" : "")
-		<< " - [M] " << c.m_mana
-		<< " - [D] " << c.m_damage
-		<< " - [H] " << c.m_health
+	    << " - ["
+		<< (c.m_taunt ? "T/" : "0/")
+		<< (c.m_charge ? "C/" : "0/")
+		<< (c.m_shield ? "S/" : "0/")
+		<< (c.m_windfury ? "W" : "0")
+		<< "]"
+		<< " - [Mana] " << c.m_mana
+		<< " - [Dmg] " << c.m_damage
+		<< " - [HP] " << c.m_health
 		<< " - " << (c.m_alive ? "Alive" : "Dead");
 
 	return out;

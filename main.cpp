@@ -25,10 +25,14 @@ int main()
             game_count++;
         }
 
-        //if(win_count > 498 && win_count < 502)
+
+        std::cout << win_count << std::endl;
+        std::cout << game_count << std::endl;
+
+        if(win_count > 495 && win_count < 505)
         {
-            std::cout << win_count << std::endl;
-            std::cout << game_count << std::endl;
+            cg.print_deck();
+            std::cout << "-----------" << std::endl;
         }
     }
 

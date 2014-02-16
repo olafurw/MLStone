@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
+#include <cstring>
 #include <algorithm>
 
 #include "utils.hpp"
@@ -14,6 +16,7 @@ public:
     card_generator();
 
     std::vector<card> get_deck();
+    void print_deck();
 
 private:
     std::mt19937 m_rnd;

@@ -1,6 +1,7 @@
 #include "player.hpp"
 
 player::player(int id, std::string name, int health, int armor, std::shared_ptr<board> board):
+        target(target::type::player),
 		m_id(id),
 		m_enemy_id((id + 1) % 2),
 		m_name(name),
@@ -18,6 +19,7 @@ player::player(int id, std::string name, int health, int armor, std::shared_ptr<
 }
 
 player::player(int id, std::string name, int health, int armor, std::shared_ptr<board> board, const std::vector<card>& cards):
+        target(target::type::player),
         m_id(id),
         m_enemy_id((id + 1) % 2),
         m_name(name),
@@ -34,7 +36,7 @@ player::player(int id, std::string name, int health, int armor, std::shared_ptr<
     m_board->register_player(m_id, this);
 }
 
-player::player(const player& p)
+player::player(const player& p): target(target::type::player)
 {
 	m_id = p.m_id;
 	m_enemy_id = p.m_enemy_id;
@@ -51,7 +53,7 @@ player::player(const player& p)
 	m_board->register_player(m_id, this);
 }
 
-player::player(player&& p)
+player::player(player&& p): target(target::type::player)
 {
 	m_id = p.m_id;
 	m_enemy_id = p.m_enemy_id;
@@ -72,6 +74,7 @@ player& player::operator =(const player& p)
 {
 	if(this != &p)
 	{
+	    m_type = p.m_type;
 		m_id = p.m_id;
 		m_enemy_id = p.m_enemy_id;
 		m_name = p.m_name;
@@ -94,6 +97,7 @@ player& player::operator =(player&& p)
 {
 	if(this != &p)
 	{
+	    m_type = p.m_type;
 		m_id = p.m_id;
 		m_enemy_id = p.m_enemy_id;
 		m_name = std::move(p.m_name);

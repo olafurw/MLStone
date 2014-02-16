@@ -9,8 +9,9 @@
 #include "card.hpp"
 #include "deck.hpp"
 #include "board.hpp"
+#include "target.hpp"
 
-class player
+class player : public target
 {
 public:
 	player() = delete;
