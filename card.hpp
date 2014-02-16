@@ -3,28 +3,29 @@
 
 #include <string>
 #include <ostream>
+#include <vector>
 
 class player;
 
 class card
 {
 public:
-	card() = delete;
+    card() = delete;
 
-	card(const std::string& name,
-	     int mana,
-	     int damage,
-	     int health,
-	     bool taunt,
-	     bool charge,
-	     bool shield,
-	     bool windfury);
+    card(const std::string& name,
+         int mana,
+         int damage,
+         int health,
+         bool taunt,
+         bool charge,
+         bool shield,
+         bool windfury);
 
-	card(const card& c);
-	card(card&& c);
+    card(const card& c);
+    card(card&& c);
 
-	card& operator =(const card& c);
-	card& operator =(card&& c);
+    card& operator =(const card& c);
+    card& operator =(card&& c);
 
 	void attack(card& c);
 	void attack(player* p);
