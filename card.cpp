@@ -25,7 +25,9 @@ card::card(const std::string& name,
 	m_awake(charge),
 	m_windfury(windfury),
 	m_attack_count((m_windfury ? 2 : 1)),
-	m_max_attack_count(m_attack_count)
+	m_max_attack_count(m_attack_count),
+	m_placed(false),
+	m_destroy(false)
 {
 	m_id = random_generator()();
 }
@@ -49,6 +51,11 @@ card::card(const card& c): target(target::type::card)
 	m_windfury = c.m_windfury;
 	m_attack_count = c.m_attack_count;
 	m_max_attack_count = c.m_max_attack_count;
+
+	m_battle_cry = c.m_battle_cry;
+
+	m_placed = c.m_placed;
+	m_destroy = c.m_destroy;
 }
 
 card::card(card&& c): target(target::type::card)
@@ -70,6 +77,11 @@ card::card(card&& c): target(target::type::card)
 	m_windfury = c.m_windfury;
     m_attack_count = c.m_attack_count;
     m_max_attack_count = c.m_max_attack_count;
+
+    m_battle_cry = std::move(c.m_battle_cry);
+
+    m_placed = c.m_placed;
+    m_destroy = c.m_destroy;
 }
 
 card& card::operator =(const card& c)
@@ -94,6 +106,11 @@ card& card::operator =(const card& c)
 		m_windfury = c.m_windfury;
 	    m_attack_count = c.m_attack_count;
 	    m_max_attack_count = c.m_max_attack_count;
+
+	    m_battle_cry = c.m_battle_cry;
+
+	    m_placed = c.m_placed;
+	    m_destroy = c.m_destroy;
 	}
 
 	return *this;
@@ -121,6 +138,11 @@ card& card::operator =(card&& c)
 		m_windfury = c.m_windfury;
 	    m_attack_count = c.m_attack_count;
 	    m_max_attack_count = c.m_max_attack_count;
+
+	    m_battle_cry = std::move(c.m_battle_cry);
+
+	    m_placed = c.m_placed;
+	    m_destroy = c.m_destroy;
 	}
 
 	return *this;
@@ -188,19 +210,39 @@ void card::take_damage(int damage)
 	m_health -= damage;
 }
 
-bool card::can_attack()
+bool card::can_attack() const
 {
 	return m_attack;
 }
 
-bool card::alive()
+bool card::alive() const
 {
 	return m_alive;
 }
 
-bool card::awake()
+bool card::awake() const
 {
 	return m_awake;
+}
+
+bool card::placed() const
+{
+    return m_placed;
+}
+
+void card::set_placed(bool p)
+{
+    m_placed = p;
+}
+
+bool card::destroy() const
+{
+    return m_destroy;
+}
+
+void card::set_destroy(bool d)
+{
+    m_destroy = d;
 }
 
 std::string card::name() const
@@ -265,17 +307,21 @@ int card::health() const
     return m_health;
 }
 
-void card::add_battle_cry(effect& e)
+void card::add_battle_cry(std::shared_ptr<effect> e)
 {
+    e->set_parent(this);
     m_battle_cry.push_back(e);
 }
 
 void card::process_battle_cry()
 {
+    std::cout << "destroy" << std::endl;
+    std::cout << m_destroy << std::endl;
     for(auto& effect : m_battle_cry)
     {
-        effect.process();
+        effect->process();
     }
+    std::cout << m_destroy << std::endl;
 }
 
 bool card::operator ==(const card& c)

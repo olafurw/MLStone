@@ -21,6 +21,9 @@ public:
 private:
     std::mt19937 m_rnd;
     std::vector<card> m_cards;
+
+    int m_card_count;
+    int m_deck_size;
 };
 
 #endif

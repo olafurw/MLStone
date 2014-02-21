@@ -8,7 +8,7 @@ class card;
 class effect
 {
 public:
-    effect(card* p, target* t);
+    effect();
     effect(const effect& e);
     effect(effect&& e);
 
@@ -17,7 +17,10 @@ public:
     effect& operator =(const effect& e);
     effect& operator =(effect&& e);
 
-    virtual void process(){};
+    virtual void process() = 0;
+
+    void set_parent(card* p);
+    card* get_parent();
 
     void set_target(target* t);
     target* get_target();

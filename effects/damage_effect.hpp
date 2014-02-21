@@ -6,7 +6,7 @@
 class damage_effect : public effect
 {
 public:
-    damage_effect(card* p, target* t, int damage, unsigned int count);
+    damage_effect(int damage, unsigned int count);
     damage_effect(const damage_effect& e);
     damage_effect(damage_effect&& e);
 

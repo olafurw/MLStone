@@ -1,7 +1,7 @@
 #include "damage_effect.hpp"
 
-damage_effect::damage_effect(card* p, target* t, int damage, unsigned int count):
-    effect(p, t),
+damage_effect::damage_effect(int damage, unsigned int count):
+    effect(),
     m_damage(damage),
     m_count(count)
 {
@@ -51,18 +51,17 @@ damage_effect& damage_effect::operator =(damage_effect&& e)
     return *this;
 }
 
-#include <iostream>
-
 void damage_effect::process()
 {
-    std::cout << "a";
-    if(m_count > 0)
+    if(!m_target)
     {
-        std::cout << "b";
-        m_target->take_damage(m_damage);
+        return;
     }
 
-    std::cout << "c";
+    if(m_count > 0)
+    {
+        m_target->take_damage(m_damage);
+    }
 
     m_count--;
 }

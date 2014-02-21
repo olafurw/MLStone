@@ -3,8 +3,11 @@
 #include <vector>
 #include <memory>
 
+#include "../board.hpp"
+#include "../player.hpp"
 #include "../card.hpp"
 #include "../effect.hpp"
+#include "../effects/destroy_effect.hpp"
 #include "../effects/damage_effect.hpp"
 
 class effect_tests : public CxxTest::TestSuite
@@ -15,7 +18,8 @@ public:
         card c1("test", 1, 2, 3, true, false, false, false);
         card c2("test", 1, 2, 3, true, false, false, false);
 
-        damage_effect de(&c1, &c2, 1, 1);
+        auto de = std::make_shared<damage_effect>(1, 1);
+        de->set_target(&c2);
 
         c1.add_battle_cry(de);
 
@@ -26,5 +30,24 @@ public:
 
         TS_ASSERT_EQUALS(3, c1.health());
         TS_ASSERT_EQUALS(2, c2.health());
+    }
+
+    void testDestroyEffect()
+    {
+        auto brd = std::make_shared<board>();
+
+        std::vector<std::shared_ptr<player>> players;
+        players.emplace_back(std::make_shared<player>(0, "a", 30, 0, brd));
+        players.emplace_back(std::make_shared<player>(1, "b", 30, 0, brd));
+
+        TS_ASSERT_EQUALS(0, brd->count(0));
+
+        card c("a", 1, 1, 1, false, false, false, false);
+
+        c.add_battle_cry(std::make_shared<destroy_effect>());
+
+        brd->add(0, c);
+
+        TS_ASSERT_EQUALS(0, brd->count(0));
     }
 };

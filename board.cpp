@@ -39,6 +39,13 @@ void board::add(int id, card c)
 		return;
 	}
 
+	c.process_battle_cry();
+
+	if(c.destroy())
+	{
+	    return;
+	}
+
 	brd->emplace_back(c);
 }
 

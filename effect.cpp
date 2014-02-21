@@ -1,10 +1,10 @@
 #include "effect.hpp"
 #include "card.hpp"
 
-effect::effect(card* p, target* t):
-    m_parent(p),
-    m_target(t)
+effect::effect()
 {
+    m_parent = nullptr;
+    m_target = nullptr;
 }
 
 effect::effect(const effect& e)
@@ -45,6 +45,17 @@ effect& effect::operator =(effect&& e)
 
     return *this;
 }
+
+void effect::set_parent(card* p)
+{
+    m_parent = p;
+}
+
+card* effect::get_parent()
+{
+    return m_parent;
+}
+
 
 void effect::set_target(target* t)
 {

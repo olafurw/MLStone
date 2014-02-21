@@ -4,6 +4,7 @@
 #include <string>
 #include <ostream>
 #include <vector>
+#include <memory>
 
 #include "target.hpp"
 #include "effect.hpp"
@@ -34,10 +35,16 @@ public:
 	void attack(player* p);
 	void refresh();
 
-	bool can_attack();
+	bool can_attack() const;
 	void take_damage(int damage);
-	bool alive();
-	bool awake();
+	bool alive() const;
+	bool awake() const;
+
+	bool placed() const;
+	void set_placed(bool p);
+
+	bool destroy() const;
+	void set_destroy(bool d);
 
 	std::string name() const;
 	bool shield() const;
@@ -52,7 +59,7 @@ public:
 	int damage() const;
 	int health() const;
 
-	void add_battle_cry(effect& e);
+	void add_battle_cry(std::shared_ptr<effect> e);
 	void process_battle_cry();
 
 	bool operator ==(const card& c);
@@ -76,14 +83,17 @@ private:
 	bool m_alive;
 	bool m_windfury;
 
+	bool m_placed;
+	bool m_destroy;
+
 	int m_attack_count;
 	int m_max_attack_count;
 
 	std::string m_name;
 
-	std::vector<effect> m_battle_cry;
-	std::vector<effect> m_each_round;
-	std::vector<effect> m_death_rattle;
+	std::vector<std::shared_ptr<effect>> m_battle_cry;
+	std::vector<std::shared_ptr<effect>> m_each_round;
+	std::vector<std::shared_ptr<effect>> m_death_rattle;
 };
 
 std::ostream& operator<<(std::ostream& out, const card& c);
