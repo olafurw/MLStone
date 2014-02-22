@@ -18,6 +18,7 @@ public:
     virtual ~target(){}
 
     virtual void take_damage(int damage) = 0;
+    virtual void give_health(int health) = 0;
 
     target::type m_type;
 };

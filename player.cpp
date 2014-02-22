@@ -261,6 +261,24 @@ void player::take_damage(int damage)
 	m_health -= damage;
 }
 
+void player::give_health(int health)
+{
+    if(!m_alive)
+    {
+        return;
+    }
+
+    // We can not go over max health
+    if(health + m_health > m_max_health)
+    {
+        m_health = m_max_health;
+
+        return;
+    }
+
+    m_health += health;
+}
+
 std::string player::name() const
 {
 	return m_name;

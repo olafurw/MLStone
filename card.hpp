@@ -37,6 +37,7 @@ public:
 
 	bool can_attack() const;
 	void take_damage(int damage);
+	void give_health(int health);
 	bool alive() const;
 	bool awake() const;
 

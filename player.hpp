@@ -34,6 +34,7 @@ public:
 	void attack(int player_card, int enemy_card);
 	void attack(int player_card);
 	void take_damage(int damage);
+	void give_health(int health);
 
 	std::string name() const;
 	int health() const;

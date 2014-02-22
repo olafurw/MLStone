@@ -210,6 +210,24 @@ void card::take_damage(int damage)
 	m_health -= damage;
 }
 
+void card::give_health(int health)
+{
+    if(!m_alive)
+    {
+        return;
+    }
+
+    // We can not go over max health
+    if(health + m_health > m_max_health)
+    {
+        m_health = m_max_health;
+
+        return;
+    }
+
+    m_health += health;
+}
+
 bool card::can_attack() const
 {
 	return m_attack;
