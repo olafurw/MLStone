@@ -36,6 +36,7 @@ public:
 	void take_damage(int damage);
 
 	std::string name() const;
+	int health() const;
 	int id() const;
 	int enemy_id() const;
 	bool alive() const;

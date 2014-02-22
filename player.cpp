@@ -266,6 +266,11 @@ std::string player::name() const
 	return m_name;
 }
 
+int player::health() const
+{
+    return m_health;
+}
+
 int player::id() const
 {
 	return m_id;

@@ -50,4 +50,32 @@ public:
 
         TS_ASSERT_EQUALS(0, brd->count(0));
     }
+
+    void testFireballSpell()
+    {
+        auto brd = std::make_shared<board>();
+
+        std::vector<std::shared_ptr<player>> players;
+        players.emplace_back(std::make_shared<player>(0, "a", 30, 0, brd));
+        players.emplace_back(std::make_shared<player>(1, "b", 30, 0, brd));
+
+        TS_ASSERT_EQUALS(0, brd->count(0));
+        TS_ASSERT_EQUALS(30, players.at(1)->health());
+        TS_ASSERT_EQUALS(30, players.at(0)->health());
+
+        card c("fireball", 1, 1, 1, false, false, false, false);
+
+        auto destroy = std::make_shared<destroy_effect>();
+        auto damage = std::make_shared<damage_effect>(10, 1);
+        damage->set_target(players.at(1).get());
+
+        c.add_battle_cry(destroy);
+        c.add_battle_cry(damage);
+
+        brd->add(0, c);
+
+        TS_ASSERT_EQUALS(0, brd->count(0));
+        TS_ASSERT_EQUALS(20, players.at(1)->health());
+        TS_ASSERT_EQUALS(30, players.at(0)->health());
+    }
 };

@@ -311,17 +311,17 @@ void card::add_battle_cry(std::shared_ptr<effect> e)
 {
     e->set_parent(this);
     m_battle_cry.push_back(e);
+
+    std::cout << m_battle_cry.size() << std::endl;
 }
 
 void card::process_battle_cry()
 {
-    std::cout << "destroy" << std::endl;
-    std::cout << m_destroy << std::endl;
     for(auto& effect : m_battle_cry)
     {
+        effect->set_parent(this);
         effect->process();
     }
-    std::cout << m_destroy << std::endl;
 }
 
 bool card::operator ==(const card& c)
