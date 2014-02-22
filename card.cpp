@@ -311,8 +311,6 @@ void card::add_battle_cry(std::shared_ptr<effect> e)
 {
     e->set_parent(this);
     m_battle_cry.push_back(e);
-
-    std::cout << m_battle_cry.size() << std::endl;
 }
 
 void card::process_battle_cry()
