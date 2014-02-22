@@ -10,6 +10,7 @@
 #include "../effects/destroy_effect.hpp"
 #include "../effects/damage_effect.hpp"
 #include "../effects/heal_effect.hpp"
+#include "../effects/give_windfury_effect.hpp"
 
 class effect_tests : public CxxTest::TestSuite
 {
@@ -194,5 +195,37 @@ public:
         TS_ASSERT_EQUALS(0, brd->count(0));
         TS_ASSERT_EQUALS(30, players.at(1)->health());
         TS_ASSERT_EQUALS(30, players.at(0)->health());
+    }
+
+    void testGiveWindfury()
+    {
+        auto brd = std::make_shared<board>();
+
+        std::vector<std::shared_ptr<player>> players;
+        players.emplace_back(std::make_shared<player>(0, "a", 30, 0, brd));
+        players.emplace_back(std::make_shared<player>(1, "b", 30, 0, brd));
+
+        TS_ASSERT_EQUALS(0, brd->count(0));
+
+        card c("non windfury", 1, 1, 1, false, false, false, false);
+        brd->add(0, c);
+        card& target = brd->at(0, 0);
+
+        TS_ASSERT_EQUALS(1, brd->count(0));
+        TS_ASSERT_EQUALS(false, target.windfury());
+
+        card gwf("give windfury", 1, 1, 1, false, false, false, false);
+
+        auto destroy = std::make_shared<destroy_effect>();
+        gwf.add_battle_cry(destroy);
+
+        auto wf = std::make_shared<give_windfury_effect>();
+        wf->set_target(&target);
+        gwf.add_battle_cry(wf);
+
+        brd->add(0, gwf);
+
+        TS_ASSERT_EQUALS(true, target.windfury());
+        TS_ASSERT_EQUALS(1, brd->count(0));
     }
 };

@@ -6,7 +6,7 @@ set(CMAKE_C_COMPILER "gcc")
 set(CMAKE_CXX_COMPILER "g++")
 set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS} -g")
 
-add_executable(MLStone main.cpp effect.cpp effects/heal_effect.cpp effects/damage_effect.cpp effects/destroy_effect.cpp game.cpp 
+add_executable(MLStone main.cpp effect.cpp effects/give_windfury_effect.cpp effects/heal_effect.cpp effects/damage_effect.cpp effects/destroy_effect.cpp game.cpp 
 					   card.cpp player.cpp deck.cpp board.cpp utils.cpp card_generator.cpp)
 
 FIND_PACKAGE(CxxTest REQUIRED)
