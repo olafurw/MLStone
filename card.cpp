@@ -14,22 +14,22 @@ card::card(const std::string& name,
 		   bool shield,
 		   bool windfury):
 	target(target::type::card),
-	m_name(name),
 	m_mana(mana), m_damage(damage),
 	m_health(health), m_max_health(health),
-	m_taunt(taunt),
-	m_charge(charge),
-	m_shield(shield),
-	m_attack(charge),
-	m_alive(true),
-	m_awake(charge),
-	m_windfury(windfury),
 	m_attack_count((m_windfury ? 2 : 1)),
 	m_max_attack_count(m_attack_count),
+    m_shield(shield),
+    m_charge(charge),
+    m_taunt(taunt),
+    m_attack(charge),
+    m_awake(charge),
+	m_alive(true),
+	m_windfury(windfury),
 	m_placed(false),
-	m_destroy(false)
+	m_destroy(false),
+	m_name(name)
 {
-	m_id = random_generator()();
+	m_id = static_cast<unsigned int>(random_generator()());
 }
 
 card::card(const card& c): target(target::type::card)
@@ -88,7 +88,7 @@ card& card::operator =(const card& c)
 {
 	if(this != &c)
 	{
-	    m_type = c.m_type;
+	    m_type = c.get_type();
 		m_id = c.m_id;
 		m_name = c.m_name;
 
@@ -120,7 +120,7 @@ card& card::operator =(card&& c)
 {
 	if(this != &c)
 	{
-	    m_type = c.m_type;
+	    m_type = c.get_type();
 		m_id = c.m_id;
 		m_name = std::move(c.m_name);
 
@@ -327,13 +327,40 @@ int card::health() const
 
 void card::add_battle_cry(std::shared_ptr<effect> e)
 {
-    e->set_parent(this);
     m_battle_cry.push_back(e);
 }
 
 void card::process_battle_cry()
 {
     for(auto& effect : m_battle_cry)
+    {
+        effect->set_parent(this);
+        effect->process();
+    }
+}
+
+void card::add_on_going(std::shared_ptr<effect> e)
+{
+    m_on_going.push_back(e);
+}
+
+void card::process_on_going()
+{
+    for(auto& effect : m_on_going)
+    {
+        effect->set_parent(this);
+        effect->process();
+    }
+}
+
+void card::add_death_rattle(std::shared_ptr<effect> e)
+{
+    m_death_rattle.push_back(e);
+}
+
+void card::process_death_rattle()
+{
+    for(auto& effect : m_death_rattle)
     {
         effect->set_parent(this);
         effect->process();

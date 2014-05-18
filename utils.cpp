@@ -5,7 +5,7 @@
 
 std::mt19937& random_generator()
 {
-	static std::mt19937 gen(std::chrono::system_clock::now().time_since_epoch().count());
+	static std::mt19937 gen(static_cast<unsigned long>(std::chrono::system_clock::now().time_since_epoch().count()));
 	return gen;
 }
 

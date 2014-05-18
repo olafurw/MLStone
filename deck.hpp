@@ -18,7 +18,7 @@ public:
 
 	void insert(const std::vector<card>& cards);
 	void insert(const std::string& filename);
-	int count();
+	unsigned int count();
 	bool can_draw();
 	card draw();
 	void shuffle();

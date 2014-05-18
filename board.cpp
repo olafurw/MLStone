@@ -8,13 +8,13 @@ board::board()
 	m_board[0] = &m_board_one;
 	m_board[1] = &m_board_two;
 
-	m_players[0] == nullptr;
-	m_players[1] == nullptr;
+	m_players[0] = nullptr;
+	m_players[1] = nullptr;
 
 	m_ready = false;
 }
 
-bool board::can_add(int id)
+bool board::can_add(unsigned int id)
 {
     if(!m_ready)
     {
@@ -24,7 +24,7 @@ bool board::can_add(int id)
 	return m_board[id]->size() < m_limit;
 }
 
-void board::add(int id, card c)
+void board::add(unsigned int id, card c)
 {
     if(!m_ready)
     {
@@ -49,7 +49,7 @@ void board::add(int id, card c)
 	brd->emplace_back(c);
 }
 
-void board::refresh(int id)
+void board::refresh(unsigned int id)
 {
     if(!m_ready)
     {
@@ -62,7 +62,7 @@ void board::refresh(int id)
 	}
 }
 
-card& board::at(int id, int index)
+card& board::at(unsigned int id, unsigned int index)
 {
     if(!m_ready)
     {
@@ -72,7 +72,7 @@ card& board::at(int id, int index)
 	return m_board[id]->at(index);
 }
 
-bool board::is_taunt(int id)
+bool board::is_taunt(unsigned int id)
 {
     if(!m_ready)
     {
@@ -91,7 +91,7 @@ bool board::is_taunt(int id)
 	return false;
 }
 
-bool board::can_be_attacked(int id, int index)
+bool board::can_be_attacked(unsigned int id, unsigned int index)
 {
     if(!m_ready)
     {
@@ -110,7 +110,7 @@ bool board::can_be_attacked(int id, int index)
 	return !is_taunt(id);
 }
 
-void board::attack(int aid, int attacker_index, int bid, int target_index)
+void board::attack(unsigned int aid, unsigned int attacker_index, unsigned int bid, unsigned int target_index)
 {
     if(!m_ready)
     {
@@ -140,7 +140,7 @@ void board::attack(int aid, int attacker_index, int bid, int target_index)
 	}
 }
 
-void board::remove(int id, int index)
+void board::remove(unsigned int id, unsigned int index)
 {
     if(!m_ready)
     {
@@ -165,7 +165,7 @@ void board::remove(int id, int index)
     }
 }
 
-void board::attack(int aid, int attacker_index, int bid)
+void board::attack(unsigned int aid, unsigned int attacker_index, unsigned int bid)
 {
     if(!m_ready)
     {
@@ -185,7 +185,7 @@ void board::attack(int aid, int attacker_index, int bid)
 	}
 }
 
-bool board::alive(int id)
+bool board::alive(unsigned int id)
 {
     if(!m_ready)
     {
@@ -197,7 +197,7 @@ bool board::alive(int id)
 	return p->alive();
 }
 
-int board::count(int id)
+unsigned int board::count(unsigned int id)
 {
     if(!m_ready)
     {
@@ -206,10 +206,10 @@ int board::count(int id)
 
 	std::vector<card>* brd = m_board[id];
 
-	return brd->size();
+	return static_cast<unsigned int>(brd->size());
 }
 
-void board::clear(int id)
+void board::clear(unsigned int id)
 {
     if(!m_ready)
     {
@@ -231,9 +231,9 @@ void board::clear()
 }
 
 // TODO: Stupid design, remove and do something smarter, like just returning the cards
-std::vector<int> board::cards(int id)
+std::vector<unsigned int> board::cards(unsigned int id)
 {
-    std::vector<int> list;
+    std::vector<unsigned int> list;
 
     if(!m_ready)
     {
@@ -249,9 +249,9 @@ std::vector<int> board::cards(int id)
 	return list;
 }
 
-std::vector<int> board::cards_can_attack(int id)
+std::vector<unsigned int> board::cards_can_attack(unsigned int id)
 {
-    std::vector<int> list;
+    std::vector<unsigned int> list;
 
     if(!m_ready)
     {
@@ -270,7 +270,7 @@ std::vector<int> board::cards_can_attack(int id)
 	return list;
 }
 
-void board::register_player(int id, player* p)
+void board::register_player(unsigned int id, player* p)
 {
 	if(id == 0)
 	{

@@ -9,7 +9,7 @@ card_generator::card_generator()
 
     unsigned int card_id = 0;
 
-    for(int i = 0; i < m_card_count; ++i)
+    for(unsigned int i = 0; i < m_card_count; ++i)
     {
         // Mana
         int mana = ((m_rnd() % 10) + 1);
@@ -48,7 +48,7 @@ std::vector<card> card_generator::get_deck()
 
     std::vector<card> deck;
 
-    for(int i = 0; i < m_deck_size; ++i)
+    for(unsigned int i = 0; i < m_deck_size; ++i)
     {
         deck.push_back(m_cards.at(i));
     }
@@ -60,7 +60,7 @@ void card_generator::print_deck()
 {
     std::sort(m_cards.begin(), m_cards.end(), [](const card& a, const card& b){ return a.name() < b.name(); });
 
-    for(int i = 0; i < m_card_count; ++i)
+    for(unsigned int i = 0; i < m_card_count; ++i)
     {
         std::cout << m_cards.at(i) << std::endl;
     }

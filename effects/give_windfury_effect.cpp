@@ -41,7 +41,7 @@ give_windfury_effect& give_windfury_effect::operator =(give_windfury_effect&& e)
 
 void give_windfury_effect::process()
 {
-    if(m_target->m_type == target::type::card)
+    if(m_target->get_type() == target::type::card)
     {
         card* target = static_cast<card*>(m_target);
 

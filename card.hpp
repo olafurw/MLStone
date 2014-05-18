@@ -62,6 +62,12 @@ public:
 
 	void add_battle_cry(std::shared_ptr<effect> e);
 	void process_battle_cry();
+    
+    void add_on_going(std::shared_ptr<effect> e);
+    void process_on_going();
+    
+    void add_death_rattle(std::shared_ptr<effect> e);
+    void process_death_rattle();
 
 	bool operator ==(const card& c);
 
@@ -69,12 +75,15 @@ public:
 
 private:
 
-	int m_id;
+	unsigned int m_id;
 
 	int m_mana;
 	int m_damage;
 	int m_health;
 	int m_max_health;
+    
+    int m_attack_count;
+    int m_max_attack_count;
 
 	bool m_shield;
 	bool m_charge;
@@ -86,14 +95,13 @@ private:
 
 	bool m_placed;
 	bool m_destroy;
-
-	int m_attack_count;
-	int m_max_attack_count;
+    
+    char _padd[3];
 
 	std::string m_name;
 
 	std::vector<std::shared_ptr<effect>> m_battle_cry;
-	std::vector<std::shared_ptr<effect>> m_each_round;
+	std::vector<std::shared_ptr<effect>> m_on_going;
 	std::vector<std::shared_ptr<effect>> m_death_rattle;
 };
 

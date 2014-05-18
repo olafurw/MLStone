@@ -3,9 +3,11 @@
 
 int main()
 {
-    srand(time(NULL));
+    srand(static_cast<unsigned int>(time(nullptr)));
 
-    while(true)
+    bool run = true;
+    
+    while(run)
     {
         card_generator cg;
 
@@ -15,7 +17,7 @@ int main()
         for(int i = 0; i < 1000; ++i)
         {
             game g(cg);
-            int winner = g.play();
+            unsigned int winner = g.play();
 
             if(winner == 1)
             {

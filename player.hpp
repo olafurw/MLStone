@@ -15,8 +15,19 @@ class player : public target
 {
 public:
 	player() = delete;
-	player(int id, std::string name, int health, int armor, std::shared_ptr<board> board);
-	player(int id, std::string name, int health, int armor, std::shared_ptr<board> board, const std::vector<card>& cards);
+	player(unsigned int id, 
+           std::string name, 
+           int health, 
+           int armor, 
+           std::shared_ptr<board> board);
+
+	player(unsigned int id, 
+           std::string name,
+           int health, 
+           int armor, 
+           std::shared_ptr<board> board, 
+           const std::vector<card>& cards);
+
 	player(const player& p);
 	player(player&& p);
 
@@ -29,25 +40,24 @@ public:
 	void update();
 
 	void draw();
-	bool can_add_to_board(int index);
-	void add_to_board(int index);
-	void attack(int player_card, int enemy_card);
-	void attack(int player_card);
+	bool can_add_to_board(unsigned int index);
+	void add_to_board(unsigned int index);
+	void attack(unsigned int player_card, unsigned int enemy_card);
+	void attack(unsigned int player_card);
 	void take_damage(int damage);
 	void give_health(int health);
 
 	std::string name() const;
 	int health() const;
-	int id() const;
-	int enemy_id() const;
+	unsigned int id() const;
+	unsigned int enemy_id() const;
 	bool alive() const;
 
 	friend std::ostream& operator<<(std::ostream& out, const player& p);
 
 private:
-	int m_id;
-	int m_enemy_id;
-	std::string m_name;
+	unsigned int m_id;
+	unsigned int m_enemy_id;
 	int m_health;
 	int m_max_health;
 	int m_mana;
@@ -56,9 +66,13 @@ private:
 	int m_fatigue;
 
 	bool m_alive;
+    
+    char _padd[7];
+    
+    std::string m_name;
 
+    deck m_deck;
 	std::vector<card> m_hand;
-	deck m_deck;
 	std::shared_ptr<board> m_board;
 };
 

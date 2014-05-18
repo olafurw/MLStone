@@ -11,7 +11,7 @@ class game
 public:
 	game(card_generator& cg);
 
-	int play();
+	unsigned int play();
 
 private:
 	std::shared_ptr<board> m_board;

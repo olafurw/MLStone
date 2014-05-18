@@ -92,9 +92,9 @@ void deck::insert(const std::string& filename)
     }
 }
 
-int deck::count()
+unsigned int deck::count()
 {
-    return m_cards.size();
+    return static_cast<unsigned int>(m_cards.size());
 }
 
 bool deck::can_draw()

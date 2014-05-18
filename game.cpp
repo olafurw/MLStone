@@ -8,7 +8,7 @@ game::game(card_generator& cg)
 	m_players.emplace_back(std::make_shared<player>(1, "Maria", 30, 0, m_board, cg.get_deck()));
 }
 
-int game::play()
+unsigned int game::play()
 {
 	int round = 0;
 

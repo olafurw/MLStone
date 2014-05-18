@@ -19,7 +19,7 @@ public:
 
 private:
     int m_damage;
-    int m_count;
+    unsigned int m_count;
 };
 
 #endif
