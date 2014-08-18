@@ -8,7 +8,7 @@ class card_tests : public CxxTest::TestSuite
 public:
     void testCreate()
     {
-        card c("test", 1, 2, 3, true, false, false, false);
+        card c("test", 1, 2, 3, true, false, false, false, false);
 
         TS_ASSERT_EQUALS("test", c.name());
         TS_ASSERT_EQUALS(true, c.alive());
@@ -25,7 +25,7 @@ public:
 
     void testCopy()
     {
-        card a("test", 1, 2, 3, true, false, false, false);
+        card a("test", 1, 2, 3, true, false, false, false, false);
         card c(a);
 
         TS_ASSERT_EQUALS(a, c);
@@ -33,7 +33,7 @@ public:
 
     void testMove()
     {
-        card a("test", 1, 2, 3, true, false, false, false);
+        card a("test", 1, 2, 3, true, false, false, false, false);
         card c(std::move(a));
 
         TS_ASSERT_EQUALS("test", c.name());
@@ -51,7 +51,7 @@ public:
 
     void testRefresh()
     {
-        card c("test", 1, 2, 3, true, false, false, false);
+        card c("test", 1, 2, 3, true, false, false, false, false);
 
         TS_ASSERT_EQUALS(false, c.awake());
         TS_ASSERT_EQUALS(false, c.can_attack());
@@ -64,7 +64,7 @@ public:
 
     void testCharge()
     {
-        card c("test", 1, 2, 3, false, true, false, false);
+        card c("test", 1, 2, 3, false, true, false, false, false);
 
         TS_ASSERT_EQUALS(true, c.awake());
         TS_ASSERT_EQUALS(true, c.can_attack());
@@ -72,8 +72,8 @@ public:
 
     void testAttack()
     {
-        card c1("test", 1, 2, 3, false, false, false, false);
-        card c2("test", 1, 2, 3, false, false, false, false);
+        card c1("test", 1, 2, 3, false, false, false, false, false);
+        card c2("test", 1, 2, 3, false, false, false, false, false);
 
         c1.attack(c2);
 
@@ -91,8 +91,8 @@ public:
 
     void testAttackDeath()
     {
-        card c1("test", 1, 2, 3, false, true, false, false);
-        card c2("test", 1, 2, 1, false, false, false, false);
+        card c1("test", 1, 2, 3, false, true, false, false, false);
+        card c2("test", 1, 2, 1, false, false, false, false, false);
 
         c1.attack(c2);
 
@@ -104,8 +104,8 @@ public:
 
     void testAttackShield()
     {
-        card c1("test", 1, 1, 3, false, true, true, false);
-        card c2("test", 1, 1, 3, false, false, false, false);
+        card c1("test", 1, 1, 3, false, true, true, false, false);
+        card c2("test", 1, 1, 3, false, false, false, false, false);
 
         TS_ASSERT_EQUALS(true, c1.shield());
         TS_ASSERT_EQUALS(false, c2.shield());
@@ -132,8 +132,8 @@ public:
 
     void testAttackWindfury()
     {
-        card c1("test", 1, 1, 5, false, false, false, true);
-        card c2("test", 1, 1, 5, false, false, false, false);
+        card c1("test", 1, 1, 5, false, false, false, true, false);
+        card c2("test", 1, 1, 5, false, false, false, false, false);
 
         TS_ASSERT_EQUALS(true, c1.windfury());
         TS_ASSERT_EQUALS(false, c2.windfury());
@@ -162,7 +162,7 @@ public:
 
     void testGiveModifiers()
     {
-        card c1("test", 1, 1, 1, false, false, false, false);
+        card c1("test", 1, 1, 1, false, false, false, false, false);
 
         TS_ASSERT_EQUALS(false, c1.taunt());
         TS_ASSERT_EQUALS(false, c1.charge());

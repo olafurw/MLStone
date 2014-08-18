@@ -11,9 +11,9 @@ public:
     {
         auto brd = std::make_shared<board>();
 
-        std::vector<card> cards { card("test", 1, 2, 3, true, false, false, false),
-                                  card("test", 1, 2, 3, true, false, false, false),
-                                  card("test", 1, 2, 3, true, false, false, false) };
+        std::vector<card> cards { card("test", 1, 2, 3, true, false, false, false, false),
+                                  card("test", 1, 2, 3, true, false, false, false, false),
+                                  card("test", 1, 2, 3, true, false, false, false, false) };
 
         std::vector<std::shared_ptr<player>> players;
         players.emplace_back(std::make_shared<player>(0, "a", 30, 0, brd, cards));

@@ -27,7 +27,7 @@ public:
 
         TS_ASSERT_EQUALS(false, b.can_add(0));
 
-        b.add(0, card("test", 1, 2, 3, false, false, false, false));
+        b.add(0, card("test", 1, 2, 3, false, false, false, false, false));
 
         TS_ASSERT_EQUALS(0, b.count(0));
         TS_ASSERT_THROWS_ANYTHING(b.at(0, 0));
@@ -49,9 +49,9 @@ public:
         TS_ASSERT_EQUALS(0, brd->count(0));
         TS_ASSERT_EQUALS(0, brd->count(1));
 
-        brd->add(0, card("a", 1, 1, 1, false, false, false, false));
-        brd->add(1, card("a", 1, 1, 1, false, false, false, false));
-        brd->add(1, card("a", 1, 1, 1, false, false, false, false));
+        brd->add(0, card("a", 1, 1, 1, false, false, false, false, false));
+        brd->add(1, card("a", 1, 1, 1, false, false, false, false, false));
+        brd->add(1, card("a", 1, 1, 1, false, false, false, false, false));
 
         TS_ASSERT_EQUALS(1, brd->count(0));
         TS_ASSERT_EQUALS(2, brd->count(1));
@@ -65,8 +65,8 @@ public:
         players.emplace_back(std::make_shared<player>(0, "a", 30, 0, brd));
         players.emplace_back(std::make_shared<player>(1, "b", 30, 0, brd));
 
-        brd->add(0, card("a", 1, 1, 1, false, false, false, false));
-        brd->add(1, card("a", 1, 1, 1, false, false, false, false));
+        brd->add(0, card("a", 1, 1, 1, false, false, false, false, false));
+        brd->add(1, card("a", 1, 1, 1, false, false, false, false, false));
 
         TS_ASSERT_EQUALS(1, brd->count(0));
         TS_ASSERT_EQUALS(1, brd->count(1));
@@ -91,9 +91,9 @@ public:
         players.emplace_back(std::make_shared<player>(0, "a", 30, 0, brd));
         players.emplace_back(std::make_shared<player>(1, "b", 30, 0, brd));
 
-        brd->add(0, card("a_card", 1, 1, 1, false, false, false, false));
-        brd->add(0, card("a_card", 1, 1, 1, false, false, false, false));
-        brd->add(1, card("b_card", 2, 2, 2, false, false, false, false));
+        brd->add(0, card("a_card", 1, 1, 1, false, false, false, false, false));
+        brd->add(0, card("a_card", 1, 1, 1, false, false, false, false, false));
+        brd->add(1, card("b_card", 2, 2, 2, false, false, false, false, false));
 
         auto card_list_one = brd->cards(0);
         auto card_list_two = brd->cards(1);
@@ -110,9 +110,9 @@ public:
         players.emplace_back(std::make_shared<player>(0, "a", 30, 0, brd));
         players.emplace_back(std::make_shared<player>(1, "b", 30, 0, brd));
 
-        brd->add(0, card("a_card", 3, 3, 3, false, false, false, false));
-        brd->add(1, card("b_card", 1, 1, 1, true, false, false, false));
-        brd->add(1, card("b_card", 2, 2, 2, false, false, false, false));
+        brd->add(0, card("a_card", 3, 3, 3, false, false, false, false, false));
+        brd->add(1, card("b_card", 1, 1, 1, true, false, false, false, false));
+        brd->add(1, card("b_card", 2, 2, 2, false, false, false, false, false));
 
         TS_ASSERT_EQUALS(false, brd->is_taunt(0));
         TS_ASSERT_EQUALS(true, brd->is_taunt(1));
@@ -129,8 +129,8 @@ public:
         players.emplace_back(std::make_shared<player>(0, "a", 30, 0, brd));
         players.emplace_back(std::make_shared<player>(1, "b", 30, 0, brd));
 
-        brd->add(0, card("a_card", 1, 1, 1, false, false, false, false));
-        brd->add(1, card("b_card", 1, 1, 1, false, false, false, false));
+        brd->add(0, card("a_card", 1, 1, 1, false, false, false, false, false));
+        brd->add(1, card("b_card", 1, 1, 1, false, false, false, false, false));
 
         TS_ASSERT_EQUALS(1, brd->count(0));
         TS_ASSERT_EQUALS(1, brd->count(1));
@@ -160,8 +160,8 @@ public:
         players.emplace_back(std::make_shared<player>(0, "a", 30, 0, brd));
         players.emplace_back(std::make_shared<player>(1, "b", 30, 0, brd));
 
-        brd->add(0, card("a_card", 1, 1, 1, false, false, false, false));
-        brd->add(1, card("b_card", 1, 1, 1, false, false, false, false));
+        brd->add(0, card("a_card", 1, 1, 1, false, false, false, false, false));
+        brd->add(1, card("b_card", 1, 1, 1, false, false, false, false, false));
 
         brd->clear(0);
 
@@ -173,8 +173,8 @@ public:
         TS_ASSERT_EQUALS(0, brd->count(0));
         TS_ASSERT_EQUALS(0, brd->count(1));
 
-        brd->add(0, card("a_card", 1, 1, 1, false, false, false, false));
-        brd->add(1, card("b_card", 1, 1, 1, false, false, false, false));
+        brd->add(0, card("a_card", 1, 1, 1, false, false, false, false, false));
+        brd->add(1, card("b_card", 1, 1, 1, false, false, false, false, false));
 
         TS_ASSERT_EQUALS(1, brd->count(0));
         TS_ASSERT_EQUALS(1, brd->count(1));

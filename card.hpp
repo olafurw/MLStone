@@ -14,22 +14,25 @@ class player;
 class card: public target
 {
 public:
-    card() = delete;
+	card() = delete;
 
-    card(const std::string& name,
-         int mana,
-         int damage,
-         int health,
-         bool taunt,
-         bool charge,
-         bool shield,
-         bool windfury);
+	card(const std::string& name,
+		 int mana,
+		 int damage,
+		 int health,
+		 bool taunt,
+		 bool charge,
+		 bool shield,
+		 bool windfury,
+		 bool stealth);
 
-    card(const card& c);
-    card(card&& c);
+	card(const card& c);
+	card(card&& c);
+	
+	~card();
 
-    card& operator =(const card& c);
-    card& operator =(card&& c);
+	card& operator =(const card& c);
+	card& operator =(card&& c);
 
 	void attack(card& c);
 	void attack(player* p);
@@ -56,6 +59,8 @@ public:
 	void give_charge();
 	bool windfury() const;
 	void give_windfury();
+	bool stealth() const;
+	void give_stealth();
 	int mana() const;
 	int damage() const;
 	int health() const;
@@ -63,11 +68,11 @@ public:
 	void add_battle_cry(std::shared_ptr<effect> e);
 	void process_battle_cry();
     
-    void add_on_going(std::shared_ptr<effect> e);
-    void process_on_going();
-    
-    void add_death_rattle(std::shared_ptr<effect> e);
-    void process_death_rattle();
+	void add_on_going(std::shared_ptr<effect> e);
+	void process_on_going();
+
+	void add_death_rattle(std::shared_ptr<effect> e);
+	void process_death_rattle();
 
 	bool operator ==(const card& c);
 
@@ -82,8 +87,8 @@ private:
 	int m_health;
 	int m_max_health;
     
-    int m_attack_count;
-    int m_max_attack_count;
+	int m_attack_count;
+	int m_max_attack_count;
 
 	bool m_shield;
 	bool m_charge;
@@ -92,11 +97,10 @@ private:
 	bool m_awake;
 	bool m_alive;
 	bool m_windfury;
+	bool m_stealth;
 
 	bool m_placed;
 	bool m_destroy;
-    
-    char _padd[3];
 
 	std::string m_name;
 

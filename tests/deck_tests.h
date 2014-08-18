@@ -9,9 +9,9 @@ class deck_tests : public CxxTest::TestSuite
 public:
     void testCreate()
     {
-        std::vector<card> cards { card("test", 1, 2, 3, true, false, false, false),
-                                  card("test", 1, 2, 3, true, false, false, false),
-                                  card("test", 1, 2, 3, true, false, false, false) };
+        std::vector<card> cards { card("test", 1, 2, 3, true, false, false, false, false),
+                                  card("test", 1, 2, 3, true, false, false, false, false),
+                                  card("test", 1, 2, 3, true, false, false, false, false) };
 
         deck d(cards);
 
@@ -20,9 +20,9 @@ public:
 
     void testCopy()
     {
-        std::vector<card> cards { card("test", 1, 2, 3, true, false, false, false),
-                                  card("test", 1, 2, 3, true, false, false, false),
-                                  card("test", 1, 2, 3, true, false, false, false) };
+        std::vector<card> cards { card("test", 1, 2, 3, true, false, false, false, false),
+                                  card("test", 1, 2, 3, true, false, false, false, false),
+                                  card("test", 1, 2, 3, true, false, false, false, false) };
 
         deck d1(cards);
         deck d2(d1);
@@ -32,9 +32,9 @@ public:
 
     void testMove()
     {
-        std::vector<card> cards { card("test", 1, 2, 3, true, false, false, false),
-                                  card("test", 1, 2, 3, true, false, false, false),
-                                  card("test", 1, 2, 3, true, false, false, false) };
+        std::vector<card> cards { card("test", 1, 2, 3, true, false, false, false, false),
+                                  card("test", 1, 2, 3, true, false, false, false, false),
+                                  card("test", 1, 2, 3, true, false, false, false, false) };
 
         deck d1(cards);
         deck d2(std::move(d1));
@@ -45,9 +45,9 @@ public:
 
     void testSize()
     {
-        std::vector<card> cards { card("test", 1, 2, 3, true, false, false, false),
-                                  card("test", 1, 2, 3, true, false, false, false),
-                                  card("test", 1, 2, 3, true, false, false, false) };
+        std::vector<card> cards { card("test", 1, 2, 3, true, false, false, false, false),
+                                  card("test", 1, 2, 3, true, false, false, false, false),
+                                  card("test", 1, 2, 3, true, false, false, false, false) };
 
         deck d(cards);
 
@@ -56,7 +56,7 @@ public:
 
     void testDraw()
     {
-        std::vector<card> cards { card("test", 1, 2, 3, true, false, false, false) };
+        std::vector<card> cards { card("test", 1, 2, 3, true, false, false, false, false) };
 
         deck d(cards);
 
@@ -71,9 +71,9 @@ public:
 
     void testClear()
     {
-        std::vector<card> cards { card("test", 1, 2, 3, true, false, false, false),
-                                  card("test", 1, 2, 3, true, false, false, false),
-                                  card("test", 1, 2, 3, true, false, false, false) };
+        std::vector<card> cards { card("test", 1, 2, 3, true, false, false, false, false),
+                                  card("test", 1, 2, 3, true, false, false, false, false),
+                                  card("test", 1, 2, 3, true, false, false, false, false) };
 
         deck d(cards);
 

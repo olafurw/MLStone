@@ -17,8 +17,8 @@ class effect_tests : public CxxTest::TestSuite
 public:
     void testDamageBattleCry()
     {
-        card c1("test", 1, 2, 3, true, false, false, false);
-        card c2("test", 1, 2, 3, true, false, false, false);
+        card c1("test", 1, 2, 3, true, false, false, false, false);
+        card c2("test", 1, 2, 3, true, false, false, false, false);
 
         auto de = std::make_shared<damage_effect>(1, 1);
         de->set_target(&c2);
@@ -44,7 +44,7 @@ public:
 
         TS_ASSERT_EQUALS(0, brd->count(0));
 
-        card c("a", 1, 1, 1, false, false, false, false);
+        card c("a", 1, 1, 1, false, false, false, false, false);
 
         c.add_battle_cry(std::make_shared<destroy_effect>());
 
@@ -65,7 +65,7 @@ public:
         TS_ASSERT_EQUALS(30, players.at(1)->health());
         TS_ASSERT_EQUALS(30, players.at(0)->health());
 
-        card c("fireball", 1, 1, 1, false, false, false, false);
+        card c("fireball", 1, 1, 1, false, false, false, false, false);
 
         auto destroy = std::make_shared<destroy_effect>();
         auto damage = std::make_shared<damage_effect>(10, 1);
@@ -94,7 +94,7 @@ public:
         TS_ASSERT_EQUALS(true, players.at(1)->alive());
         TS_ASSERT_EQUALS(30, players.at(0)->health());
 
-        card c("fireball", 1, 1, 1, false, false, false, false);
+        card c("fireball", 1, 1, 1, false, false, false, false, false);
 
         auto destroy = std::make_shared<destroy_effect>();
         auto damage = std::make_shared<damage_effect>(30, 1);
@@ -123,7 +123,7 @@ public:
         TS_ASSERT_EQUALS(30, players.at(1)->health());
         TS_ASSERT_EQUALS(30, players.at(0)->health());
 
-        card c1("fireball", 1, 1, 1, false, false, false, false);
+        card c1("fireball", 1, 1, 1, false, false, false, false, false);
 
         auto destroy1 = std::make_shared<destroy_effect>();
         auto damage = std::make_shared<damage_effect>(10, 1);
@@ -138,7 +138,7 @@ public:
         TS_ASSERT_EQUALS(20, players.at(1)->health());
         TS_ASSERT_EQUALS(30, players.at(0)->health());
 
-        card c2("healing", 1, 1, 1, false, false, false, false);
+        card c2("healing", 1, 1, 1, false, false, false, false, false);
 
         auto destroy2 = std::make_shared<destroy_effect>();
         auto heal = std::make_shared<heal_effect>(5, 1);
@@ -166,7 +166,7 @@ public:
         TS_ASSERT_EQUALS(30, players.at(1)->health());
         TS_ASSERT_EQUALS(30, players.at(0)->health());
 
-        card c1("fireball", 1, 1, 1, false, false, false, false);
+        card c1("fireball", 1, 1, 1, false, false, false, false, false);
 
         auto destroy1 = std::make_shared<destroy_effect>();
         auto damage = std::make_shared<damage_effect>(10, 1);
@@ -181,7 +181,7 @@ public:
         TS_ASSERT_EQUALS(20, players.at(1)->health());
         TS_ASSERT_EQUALS(30, players.at(0)->health());
 
-        card c2("healing", 1, 1, 1, false, false, false, false);
+        card c2("healing", 1, 1, 1, false, false, false, false, false);
 
         auto destroy2 = std::make_shared<destroy_effect>();
         auto heal = std::make_shared<heal_effect>(20, 1);
@@ -207,14 +207,14 @@ public:
 
         TS_ASSERT_EQUALS(0, brd->count(0));
 
-        card c("non windfury", 1, 1, 1, false, false, false, false);
+        card c("non windfury", 1, 1, 1, false, false, false, false, false);
         brd->add(0, c);
         card& target = brd->at(0, 0);
 
         TS_ASSERT_EQUALS(1, brd->count(0));
         TS_ASSERT_EQUALS(false, target.windfury());
 
-        card gwf("give windfury", 1, 1, 1, false, false, false, false);
+        card gwf("give windfury", 1, 1, 1, false, false, false, false, false);
 
         auto destroy = std::make_shared<destroy_effect>();
         gwf.add_battle_cry(destroy);

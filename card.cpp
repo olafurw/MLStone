@@ -12,7 +12,8 @@ card::card(const std::string& name,
 		   bool taunt,
 		   bool charge,
 		   bool shield,
-		   bool windfury):
+		   bool windfury,
+		   bool stealth):
 	target(target::type::card),
 	m_mana(mana), m_damage(damage),
 	m_health(health), m_max_health(health),
@@ -23,6 +24,7 @@ card::card(const std::string& name,
 	m_awake(charge),
 	m_alive(true),
 	m_windfury(windfury),
+	m_stealth(stealth),
 	m_placed(false),
 	m_destroy(false),
 	m_name(name)
@@ -50,6 +52,7 @@ card::card(const card& c): target(target::type::card)
 	m_alive = c.m_alive;
 	m_awake = c.m_awake;
 	m_windfury = c.m_windfury;
+	m_stealth = c.m_stealth;
 	m_attack_count = c.m_attack_count;
 	m_max_attack_count = c.m_max_attack_count;
 
@@ -76,6 +79,7 @@ card::card(card&& c): target(target::type::card)
 	m_alive = c.m_alive;
 	m_awake = c.m_awake;
 	m_windfury = c.m_windfury;
+	m_stealth = c.m_stealth;
 	m_attack_count = c.m_attack_count;
 	m_max_attack_count = c.m_max_attack_count;
 
@@ -108,6 +112,7 @@ card& card::operator =(const card& c)
 	m_alive = c.m_alive;
 	m_awake = c.m_awake;
 	m_windfury = c.m_windfury;
+	m_stealth = c.m_stealth;
 	m_attack_count = c.m_attack_count;
 	m_max_attack_count = c.m_max_attack_count;
 
@@ -115,6 +120,12 @@ card& card::operator =(const card& c)
 
 	m_placed = c.m_placed;
 	m_destroy = c.m_destroy;
+	
+	return *this;
+}
+
+card::~card()
+{
 }
 
 card& card::operator =(card&& c)
@@ -140,6 +151,7 @@ card& card::operator =(card&& c)
 	m_alive = c.m_alive;
 	m_awake = c.m_awake;
 	m_windfury = c.m_windfury;
+	m_stealth = c.m_stealth;
 	m_attack_count = c.m_attack_count;
 	m_max_attack_count = c.m_max_attack_count;
 
@@ -147,12 +159,16 @@ card& card::operator =(card&& c)
 
 	m_placed = c.m_placed;
 	m_destroy = c.m_destroy;
+	
+	return *this;
 }
 
 void card::attack(card& c)
 {
 	if(m_awake && m_attack && m_attack_count > 0)
 	{
+		m_stealth = false;
+		
 		c.take_damage(m_damage);
 		take_damage(c.m_damage);
 
@@ -170,6 +186,8 @@ void card::attack(player* p)
 {
 	if(m_awake && m_attack && m_attack_count > 0)
 	{
+		m_stealth = false;
+		
 		p->take_damage(m_damage);
 
 		--m_attack_count;
@@ -191,6 +209,11 @@ void card::refresh()
 
 void card::take_damage(int damage)
 {
+	if(m_stealth)
+	{
+		return;
+	}
+	
 	if(m_shield)
 	{
 		m_shield = false;
@@ -311,6 +334,16 @@ void card::give_windfury()
 	m_max_attack_count = 2;
 }
 
+bool card::stealth() const
+{
+	return m_stealth;
+}
+
+void card::give_stealth()
+{
+	m_stealth = true;
+}
+
 int card::mana() const
 {
 	return m_mana;
@@ -382,7 +415,8 @@ std::ostream& operator<<(std::ostream& out, const card& c)
 		<< (c.m_taunt ? "T/" : "0/")
 		<< (c.m_charge ? "C/" : "0/")
 		<< (c.m_shield ? "S/" : "0/")
-		<< (c.m_windfury ? "W" : "0")
+		<< (c.m_windfury ? "W/" : "0/")
+		<< (c.m_stealth ? "I" : "0")
 		<< "]"
 		<< " - [Mana] " << c.m_mana
 		<< " - [Dmg] " << c.m_damage
